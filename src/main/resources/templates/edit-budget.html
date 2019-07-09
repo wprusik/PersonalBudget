@@ -1,0 +1,272 @@
+﻿<!doctype html>
+<html lang="pl">
+    <head>
+        <title>Edit budget</title>
+        
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button-active">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                                                        
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    
+                    <div style="padding-top: 1vh; padding-bottom: svh;">
+                    <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">
+                        <span th:text="${error}"></span>
+                    </div>
+                        
+                    <div th:if="${success} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">
+                        <span th:text="${success}"></span>
+                    </div>
+                    </div>
+                    
+                    
+                    
+                    <div class="row">
+                        <div class="col-1"></div>
+                        
+                        <div class="container col-md-4 container-content" style="max-height: 175px; min-height: 175px;">
+                            <div class="row">                                
+                                <div class="col-8">
+                                
+                                <form th:object="${budget}" method="POST" th:action="'/budgets/update'" id="budget-form">
+                                    
+                                    <input type="hidden" th:field="${budget.username}" th:value="${budget.username}"/>
+                                    <input type="hidden" th:field="${budget.budgetId}" th:value="${budget.budgetId}"/>
+                                    
+                                        <h2>
+                                           <input type="text" th:field="${budget.budgetName}" pattern="[Aa-Zz0-9._%+-]{3,18}" required style="border: 0px none;"/>
+                                       </h2>
+                                
+                                
+                                <input type="text" th:field="${budget.purpose}" style="font-style: italic; border: 0px none; width: 100%;" pattern="[Aa-Zz0-9._%+-]{3,33}" required />
+                                
+                                
+                                
+                                
+                                <br /><br />
+                                &nbsp;Funds:&nbsp;
+                                <input type="number" step="0.01" min="0" th:field="${budget.amount}"  style="width:100px; border: 0px none; text-align: right;" pattern="(^\d+\.?\d+$)|(^\d+%$)" required />
+                                
+                                <select th:field="${budget.currency}" required style="height:30px; border: 0px none;">
+                                    <option  th:each="currency : ${currencies}" th:text="${currency.currency}" th:value="${currency.currency}" />
+                                </select>
+                                
+                                </form>                                    
+                                </div>
+                                
+                                <div class="col-4">
+                                    <div style="margin: -25px -18px 0 0; text-align: right; opacity:0.7;">
+                                        <a th:href="'/budgets/show?id=' + ${budget.budgetId}" title="Dismiss changes" style="text-decoration: none; font-size: 13px;" class="remove-sign-style" onclick="if (!(confirm('Are you sure you want to discard changes?'))) return false"><span class="glyphicon-remove-sign"></span></a>
+                                    </div>
+                                    
+                                    <div style="margin: -24px -2px 0 0; text-align: right; opacity:0.7;">                                        
+                                        <a href="#" title="Save changes" style="text-decoration: none; font-size: 13px;" class="accept-sign-style submit-form" onclick="if (!(confirm('Changes will be saved. If you changed the currency, all expenses will be converted at the current exchange rate. Are you sure?'))) return false"><span class="glyphicon-accept-sign"></span></a>
+                                    </div>
+                                    
+                                
+                                    <img src="/img/icons/black/budget.png" width="75%" style="float: right;" />
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+
+                        <div class="container col-md-4 container-content" style="padding:0;">
+                             
+                            <table class="custom-table">
+                                <tr>
+                                    <div style="margin:0; width:100%; height:35px; display:block; padding: 5px 10px; color: white; background:#e91e63;">
+                                        <span style="float: left">EXPENDITURES</span>
+                                        <span style="float: right"><i>TOTAL COST: <b th:text="${sum} + '&nbsp;' + ${budget.currency}"></b></i></span>
+                                    </div>
+                                </tr>
+                                
+                                <tr th:each="expenditure : ${expenditures}">
+                                    <td style="width:69%;">
+                                        <font th:text="${expenditure.description}"></font>
+                                    </td>
+                                    <td style="width:27%;">
+                                        <font th:text="${expenditure.amount} + '&nbsp;' + ${budget.currency}"></font>
+                                    </td>
+                                    <td style="width:4%;">
+                                        <a th:href="'/budgets/show/delete?id=' + ${budget.budgetId} + '&expId=' + ${expenditure.id} + '&edit=true'" class="remove-sign-style" title="Remove the expenditure" style="text-decoration:none;" onclick="if (!(confirm('Are you sure you want to delete this transaction?'))) return false"><span class="glyphicon-remove-sign"></span></a>
+                                    </td>
+                                </tr>
+                                
+                                <div th:if="${#lists.isEmpty(expenditures)}">
+                                    <tr>
+                                        <td colspan="6"  style="padding: 10px 0;">
+                                            <i>No expenditures. Add a new one by clicking the button below.</i>
+                                        </td>
+                                    </tr>
+                                </div>
+                                
+                                                                
+                            </table>
+                            
+                            
+                            
+                        </div>
+                        
+                        <div class="col-1"></div>    
+                    </div>
+                    
+                    <span th:if="${sum} < ${budget.amount}">
+                        <div class="col-md-8 left margin-left" style="padding: 0; margin: auto;">
+                            <a th:href="'/budgets/show/addExpenditure?id=' + ${budget.budgetId} + '&edit=true'" class="btn btn-primary right text-white glyphicon-plus-sign" style="float: right; margin-right:-10px;">Add an expenditure</a>
+                        </div>
+                    </span>
+                    
+                    </form>
+                        
+                    
+                    <a href="/budgets" class="btn btn-warning margin-left back-sign" style="margin-top: 7vh; color: white; position: fixed; bottom: 0; margin-bottom: 5vh;" onclick="if (!(confirm('Are you sure you want to return to the budgets list without saving changes?'))) return false">
+                        Back to <b>Budgets</b>
+                    </a>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>    
+    
+    <script>
+        $(document).ready(function(){
+            $("a.submit-form").click(function(){
+                document.getElementById("budget-form").submit();
+            }); 
+        });
+    </script>
+            
+    </body>
+</html>

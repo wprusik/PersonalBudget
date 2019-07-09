@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Spending structure</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">
+        
+        <link rel="stylesheet" type="text/css" href="https://www.highcharts.com/media/com_demo/css/highslide.css" />
+        
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>       
+        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button-active">
+                            <a class="menu-link" href="#">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">
+                        <span th:text="${error}"></span>
+                    </div>
+                    
+                    
+                    
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <center><h2>Spending structure</h2></center> <br /><br />
+                        </div>
+                    </div>
+                    
+                    <div class="row">   
+                        <div class="col-md-3"></div>    
+                        <div id="container" class="container-content col-md-6" style="min-width: 310px; max-width: 800px; height: 500px; margin: 1em auto;">
+
+                        </div>                      
+                        <div class="col-md-3"></div>
+                    </div>
+                    
+                    
+                    <div class="row">               
+                        <div class="col-md-3"></div>  
+                        <div id="container2" class="container-content col-md-6" style="min-width: 310px; max-width: 800px; height: 400px; margin: 1em auto">
+                            
+                        </div>                      
+                        <div class="col-md-3"></div>
+                    </div>
+                    
+                    
+                    
+                    
+                    <!-- -------------- CUSTOM CHART FORM ------------- -->                    
+                   
+                    <div class="row">               
+                        <div class="col-md-3"></div>  
+                        <div class="container-content col-md-6" style="min-width: 310px; margin: 1em auto;">
+                            <center><h4>Custom chart</h4></center>
+                            <br />
+                            <form id="generate-chart" th:object="${chartTemplate}" th:action="'/spending-structure/custom-chart'" method="POST">
+                                
+                                <table class="custom-table">
+                                    <tr style="display:none;">
+                                        <td></td>
+                                        <td></td>
+                                    </tr> 
+                                    <tr style="display:none;">
+                                        <td></td>
+                                        <td></td>
+                                    </tr> 
+                                    
+                                    <tr>
+                                        <td style="width: 40%;" title="One of two fields (account or expenditure type) must be selected">
+                                            For account**
+                                        </td>
+                                        <td>
+                                            <select id="select-account" th:field="${chartTemplate.account}" style="width: 100%; height: 30px;" onchange="makeDisabled()">
+                                                <option th:value="''" th:text="''"></option>
+                                                <option th:each="account : ${accounts}" th:value="${account.accountNumber}" th:text="${account.bank} + ' ' + ${account.accountName} + ' (' + ${account.accountNumber} + ')'"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td title="One of two fields (account or expenditure type) must be selected">
+                                            For expenditure type**
+                                        </td>
+                                        
+                                        <td>
+                                            <select id="select-exptype" th:field="${chartTemplate.expType}" style="width: 100%; height: 30px;" onchange="makeDisabled()">
+                                                <option th:value="''" th:text="''"></option>
+                                                <option th:each="expType : ${expenditureCategories}" th:value="${expType}" th:text="${expType}"></option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td title="Optional">
+                                            Start date
+                                        </td>
+                                        <td title="Optional">
+                                            <input type="date" id="datefield1" th:field="${chartTemplate.startDate}" style="width: 100%; text-align: center;" onchange="setDateEnd()"/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td title="Optional">
+                                            End date
+                                        </td>
+                                        <td>
+                                            <input type="date" id="datefield2" th:field="${chartTemplate.endDate}" style="width: 100%; text-align: center;" onchange="setDateStart()"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                
+                                <center><a class="submit-form btn btn-primary text-white glyphicon-refresh-sign" style="margin: 40px 0 0 0; width:100%; font-size:18px;" href="#">Generate</a></center>
+                                
+                            </form>
+                           
+                            
+                            
+                        </div>                      
+                        <div class="col-md-3"></div>
+                    </div>
+                    
+                    
+                                       
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>    
+            
+   
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/variable-pie.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/series-label.js"></script>
+    <script src="https://www.highcharts.com/media/com_demo/js/highslide-full.min.js"></script>
+    <script src="https://www.highcharts.com/media/com_demo/js/highslide.config.js" charset="utf-8"></script>
+
+        
+    <script>
+        function setDateStart(){
+            var date = document.getElementById("datefield2").value;
+            document.getElementById("datefield1").setAttribute("max", date);
+        }
+        
+        function setDateEnd(){
+            var date = document.getElementById("datefield1").value;
+            document.getElementById("datefield2").setAttribute("min", date);
+        }
+    </script>
+    
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        Highcharts.chart('container', {
+            chart: {
+                type: 'variablepie'
+            },
+            accessibility: {
+                description: 'Distribution of different expenditure types in all transactions'
+            },
+            title: {
+                text: 'Distribution of different expenditure types'
+            },
+            tooltip: {
+                headerFormat: '',
+                pointFormat: '<span style="color:{point.color}">\u25CF</span> <b> {point.name}</b><br/>' +
+                    'Description: <b>{point.description}</b> <br />' + 
+                    'Transactions: <b>{point.z}</b> <br />' +
+                    'Total amount: <b>{point.y}</b> USD '                    
+            },
+            series: [{
+                minPointSize: 10,
+                innerSize: '20%',
+                zMin: 0,
+                name: 'expenditure types',
+                data: [
+                    
+                [# th:each="item : ${expCatDistribution}"]
+                    
+                {
+                    name: [[${item.expType}]],
+                    y: [[${item.amount}]],
+                    z: [[${item.numberOfTransactions}]],
+                    description: [[${item.description}]]
+                },
+                    
+                [/]
+                ]
+            }]
+        });   
+        /*]]>*/
+    </script>
+    
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+            Highcharts.chart('container2', {
+            chart: {
+                type: 'bar'
+            },
+            title: {
+                text: 'Distribution of expenses on individual accounts'
+            },
+            xAxis: {
+                categories: [
+                    [# th:each="item : ${expenditureCategories}"]
+                        [[${item}]] ,
+                    [/]
+                ]
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'USD'
+                }
+            },
+            legend: {
+                reversed: true
+            },
+            plotOptions: {
+                series: {
+                    stacking: 'normal'
+                }
+            },
+            series: [
+                [# th:each="item : ${accData}"]
+                {
+                    name: [[${item.name}]],
+                    data: [
+                        [# th:each="elem : ${item.amountList}"]
+                            [[${elem}]] ,
+                        [/]
+                    ]
+                },        
+            [/]
+            ]
+        }); 
+        /*]]>*/
+    </script>
+    
+    <script> 
+        function makeDisabled(){
+            if (document.getElementById('select-account').value != "") {
+            document.getElementById('select-exptype').disabled=true;
+            } else {
+                document.getElementById('select-exptype').disabled=false;
+            }
+            
+            if (document.getElementById('select-exptype').value != "") {
+                document.getElementById('select-account').disabled=true;
+            } else {
+                document.getElementById('select-account').disabled=false;
+            }
+        }        
+    </script>
+    
+    <script>
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+         if(dd<10){
+                dd='0'+dd
+            } 
+            if(mm<10){
+                mm='0'+mm
+            } 
+
+        today = yyyy+'-'+mm+'-'+dd;
+        document.getElementById("datefield1").setAttribute("max", today);
+        document.getElementById("datefield2").setAttribute("max", today);
+    </script>
+        
+    <script>
+        $(document).ready(function(){
+            $("a.submit-form").click(function(){
+                document.getElementById("generate-chart").submit();
+            }); 
+        });
+    </script>
+    
+    </body>
+</html>

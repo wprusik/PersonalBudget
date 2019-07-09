@@ -1,0 +1,287 @@
+﻿<!doctype html>
+<html lang="pl">
+    <head>
+        <title>New debt</title>
+        
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button-active">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>                            
+                            
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    
+                    <div style="padding-top: 1vh; padding-bottom: svh;">
+                    <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">
+                        <span th:text="${error}"></span>
+                    </div>
+                    </div>
+                    
+                    
+                    <h3 class="margin-left" style="margin-bottom: 5vh;"><center>New debt</center></h3>
+                    
+                    <div class="container col-md-7 left container-content" style="padding: 0; min-height: 0; margin: auto;">
+                        <ul class="nav nav-pills custom-color" style="margin-bottom: 25px;">
+                            <li class="nav-item" style="width: 50%"><a href="#debt" data-toggle="tab" class="nav-link active">Debt</a></li>
+                            <li class="nav-item" style="width: 50%"><a href="#claim" data-toggle="tab" class="nav-link">Claim</a></li>
+                        </ul>
+                        
+                        
+                        <div id="my-tab-content" class="tab-content">
+                            
+                            
+                            <!-- DEBT -->
+                            
+                            <div class="tab-pane active" id="debt">                               
+                                
+                                <form th:action="'/debts/new/add'" th:object="${debt}" method="POST" id="debtForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${debt.type}" style="display: none;">
+                                        <option th:value="'debt'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td title="Up to 30 characters">Debt name*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${debt.debtName}" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){3,30}" maxlength="30" required/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td title="Up to 30 characters">Creditor*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${debt.creditor}" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){3,30}" maxlength="30" required/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${debt.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Currency*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <select th:field="${debt.currency}" required style="height: 30px;">
+                                                    <option th:value="''" th:text="''"/>
+                                                    <option  th:each="currency : ${currencies}" th:text="${currency.currency} + ' &nbsp;&nbsp;&nbsp;' + ${currency.name}" th:value="${currency.currency}" />
+                                                </select>
+                                            </td>
+                                        </tr>   
+                                           
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the debt">
+                                </div>
+                                     
+                            </form>
+                                
+                    </div>                           
+                            
+                            
+                    
+                         <!-- CLAIM -->
+                           
+                            
+                            <div class="tab-pane" id="claim">
+                                
+                                <form th:action="'/debts/new/add'" th:object="${debt}" method="POST" id="debtForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${debt.type}" style="display: none;">
+                                        <option th:value="'claim'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td title="Up to 30 characters">Claim name*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${debt.debtName}" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){3,30}" maxlength="30" required/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td title="Up to 30 characters">Debtor*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${debt.creditor}" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){3,30}" maxlength="30" required/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${debt.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Currency*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <select th:field="${debt.currency}" required style="height: 30px;">
+                                                    <option th:value="''" th:text="''"/>
+                                                    <option  th:each="currency : ${currencies}" th:text="${currency.currency} + ' &nbsp;&nbsp;&nbsp;' + ${currency.name}" th:value="${currency.currency}" />
+                                                </select>
+                                            </td>
+                                        </tr>   
+                                           
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the claim">
+                                </div>
+                                     
+                            </form>
+                            </div>
+                            
+                         
+                        </div>
+                    
+                    
+                    </div>
+                        
+                       
+                    
+                    <a href="/debts" class="btn btn-warning margin-left back-sign" style="margin-top: 7vh; color: white; position: fixed; bottom: 0; margin-bottom: 5vh;">
+                        Back to <b>Debts</b>
+                    </a>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>
+            
+    </body>
+</html>

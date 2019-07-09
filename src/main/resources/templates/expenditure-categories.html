@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Expenditure categories</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>                        
+                        <li class="nav-item nav-button-active">
+                            <a class="menu-link" href="#">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                            
+                            <!--
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/settings">                                
+                                <span class="collapsed-text-icon settings-sign"></span>
+                                Settings
+                            </a>
+                            </li>
+                            -->
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    <div style="padding-top: 1vh; padding-bottom: 5vh;">
+                    <div th:if="${param.success} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table;">
+                        <span th:if="${param.success[0] == 'delete'}">The category has been removed.</span>
+                        <span th:if="${param.success[0] == 'added'}">Category created successfully.</span>
+                    </div>
+                    </div>
+                    
+                    
+                    <h3 class="margin-left">Expenditure categories</h3>
+                    
+                    <div class="container col-md-10 left container-content" style="padding: 0; margin-top: 2vh; min-height: 0;">
+                        <table class="custom-table">
+                                <tr>
+                                    <td>Expenditure type</td>
+                                    <td>Description</td>
+                                    <td></td>
+                                </tr>
+                            
+                            <div th:if="${expenditureCategories != null}">
+                                <tr th:each="category: ${expenditureCategories}">
+                                    <td th:text="${category.expenditureType}"/>
+                                    <td th:text="${category.description}"/>
+                                    <td>
+                                        <a th:href="'/expenditure-categories/delete?expenditureType=' + ${category.expenditureType}" onclick="if (!(confirm('The category will be removed from list and from all transactions marked with it. Are you sure you want to delete this category permanently?'))) return false">
+                                            REMOVE
+                                        </a>
+                                    </td>
+                                </tr>
+                            </div>
+                                                        
+                            <div th:if="${#lists.isEmpty(expenditureCategories)}">
+                                <tr>
+                                    <td colspan="6"  style="padding: 10px 0;">
+                                        <i>No expenditure categories added. Add a new one by clicking the button below.</i>
+                                    </td>
+                                </tr>
+                            </div>
+                            
+                            
+                        </table>
+                    </div>
+                    
+                    <div class="col-md-10 margin-left" style="padding: 0;">
+                        <a class="btn btn-primary right text-white glyphicon-plus-sign" style="margin: 0;" href="/expenditure-categories/new">Add a new category</a>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>
+            
+    </body>
+</html>

@@ -1,0 +1,353 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Josefin+Sans');
+
+@font-face {
+    font-family: "Glyphicons Halflings";
+    src: url("/css/font/gh.ttf");
+}
+
+
+/* GLOBAL, CONTAINERS */
+
+body {
+    background: url("/img/bg.jpg");
+    background-size: cover;
+    overflow: hidden;
+}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+.right-outer-container{
+    display: inline;
+    background-color: #eee;
+    height: 100vh;
+    width: 87%;
+    padding: 3vh;
+    box-shadow: inset 12px 0 18px -12px rgba(0,0,0,0.66);
+    
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.center {
+    text-align: center;
+}
+
+.row-center {
+    margin: auto;
+}
+
+.container-content {    
+    margin: 5vh;
+    margin-bottom: 3vh;
+    padding: 3vh;
+    min-height: 10vh;
+    display: block;
+    border-radius: 2px;
+    background: white;
+    -webkit-box-shadow: 0px 0px 9px -1px rgba(181,181,181,1);
+    -moz-box-shadow: 0px 0px 9px -1px rgba(181,181,181,1);
+    box-shadow: 0px 0px 9px -1px rgba(181,181,181,1);
+}
+
+.margin-left {
+    margin-left: 5vh;
+}
+
+.submit-menu-button {
+    background: none;
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: white;
+}
+
+.right {
+    float: right;
+}
+
+
+
+/* ----- MAIN MENU ----- */
+
+.left-menu {
+    display: inline;
+    width: 13%;
+    height: 100vh;
+    background: rgba(0,0,0,0.77);   
+    color: white;    
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.left-menu::-webkit-scrollbar {
+        display: none;
+    }
+
+.left-menu p {
+    float: center;
+    text-align: center;
+    padding: 1.9vh 0 2.5vh 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.9vh;
+    margin: 1.4vh 6%;
+    border-style: solid;
+    border-color: rgba(86, 84, 84, 1);
+    border-width: 0 0 1px 0;        
+}
+
+.menu-icon {
+    float: left;
+    display: inline;
+    padding-right: 0.5vw; 
+    height: 2.9vh;
+}
+
+.nav-menu-icon {
+    height: 2vh;
+    float: left;
+    padding-right: 1.5vh;
+}
+
+#menuUl
+{
+    border: none;
+    padding-top: 0;
+    margin-top: 0;
+}
+
+.top-navbar {
+    background: transparent;
+    text-align: right;
+    margin-top: 1vh;
+    color: white;
+    height: 11vh;
+}
+
+.nav-button-active {
+    background-color: #e91e63;    
+    opacity: 1;
+    width: 88%;
+    border:  none;
+    border-radius: 0.45vh;
+    height: 5vh;
+    margin: 1.4vh 6%;
+    padding: 0.38vh 0 0 0;
+}
+
+.nav-button-active:hover {
+    background-color: #bc0140;
+    transition: all .4s linear;
+}
+
+.nav-button {
+    background: transparent;
+    width: 88%;
+    border:  none;
+    border-radius: 0.45vh;
+    height: 5vh;
+    margin: 1.4vh 6%;
+    padding: 0.38vh 0 0 0;    
+}
+
+.nav-button:hover {
+    background: rgba(255,255,255,0.18);      
+    transition: background .4s linear;
+}
+
+.menu-link {
+    border: none;
+    margin: 0.9vh;
+    display: block;
+    text-decoration: none;
+    /*font-family: 'Josefin Sans', sans-serif;*/
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.65vh;
+    color: #ffffff;
+}
+
+.menu-link:hover {
+    color: rgba(255,255,255,1);
+    text-decoration: none;
+}
+
+.menu-link a:hover {
+    color: rgba(255,255,255,1);
+    text-decoration: none;
+}
+
+.collapsed-text-icon {
+    height: 1.6vh;
+    float: left;
+    display: block;
+    text-align: center;
+    border: none;
+    padding-right: 1vh;
+    padding-left: 1vh;
+}
+
+.menu-link-expanded {
+    font-size: 1.4vh;
+    padding-top: 0.2vh;
+}
+
+.accordion-toggle:after {
+    content: "\e253";   
+    font-family: 'Glyphicons Halflings';
+    font-size: 1vh;
+    float: right;
+    padding-right: 1vh;
+    padding-top: 0.55vh;
+}
+
+.accordion-toggle.collapsed:after {
+    content: "\e252";
+    font-family: 'Glyphicons Halflings';
+    font-size: 1vh;
+    float: right;
+    padding-right: 1vh;
+    padding-top: 0.55vh;
+}
+
+.user-icon {
+    height: 3vh;
+    padding-right: 1.2vh;
+}
+
+
+/* ----- TEXT ICONS ----- */
+
+.back-sign:before {
+    content: "\e079";
+    font-size: 14px;
+    font-family: "Glyphicons Halflings";
+    color: white;
+}
+
+.info-sign:before {
+    content: "\e086";
+    font-family: "Glyphicons Halflings";
+}
+
+.mail-sign:before {
+    content: "\2709";
+    font-family: "Glyphicons Halflings";
+}
+
+.logout-sign:before {
+    content: "\e163";
+    font-family: "Glyphicons Halflings";
+}
+
+.settings-sign:before {
+    content: "\e019";
+    font-family: "Glyphicons Halflings";
+}
+
+.glyphicon-plus-sign:before { 
+    content: "\002b";
+    font-family: "Glyphicons Halflings";
+    padding-right: 9px;
+    font-size: 14px;
+}
+
+.glyphicon-search-sign:before { 
+    content: "\e003";
+    font-family: "Glyphicons Halflings";
+    padding-right: 9px;
+    font-size: 14px;
+}
+
+.glyphicon-remove-circle-sign:before {
+    content: "\e088";
+    font-family: "Glyphicons Halflings";
+}
+
+.glyphicon-edit-sign:before {
+    content: "\e065";
+    font-family: "Glyphicons Halflings";
+}
+
+.glyphicon-trash-sign:before {
+    content: "\e020";
+    font-family: "Glyphicons Halflings";
+}
+
+.glyphicon-accept-sign:before {
+    content: "\e013";
+    font-family: "Glyphicons Halflings";
+}
+
+.glyphicon-remove-sign:before {
+    content: "\e014";
+    font-family: "Glyphicons Halflings";
+}
+
+.glyphicon-refresh-sign:before {
+    content: "\e031";
+    font-family: "Glyphicons Halflings";
+    font-size: 15px;
+    padding-right: 10px;
+}
+
+
+
+
+
+
+/* ----- LOGIN FORM ----- */
+.l-container{
+height: 100%;
+align-content: center;
+}
+
+.card{
+height: 335px;
+margin-top: auto;
+margin-bottom: auto;
+width: 400px;
+background-color: rgba(0,0,0,0.5) !important;
+}
+
+.card-header h3{
+color: white;
+}
+
+.input-group-prepend span{
+width: 50px;
+background-color: #e91e63;
+color: black;
+border:0 !important;
+}
+
+input:focus{
+outline: 0 0 0 0  !important;
+box-shadow: 0 0 0 0 !important;
+
+}
+
+.login_btn{
+color: white;
+background-color: #e91e63;
+width: 100px;
+}
+
+.login_btn:hover{
+color: graytext;
+background-color: darkred;
+}
+
+.links{
+color: white;
+}
+
+.links a{
+margin-left: 4px;
+}
+

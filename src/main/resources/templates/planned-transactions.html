@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Planned transactions</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">        
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link accordion-toggle" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse show">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button-active">
+                                <a class="menu-link menu-link-expanded" href="#">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                            
+                            <!--
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/settings">                                
+                                <span class="collapsed-text-icon settings-sign"></span>
+                                Settings
+                            </a>
+                            </li>
+                            -->
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                 <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    <div style="padding-top: 1vh; padding-bottom: 5vh;">
+                        <div th:if="${param.success} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:if="${param.success[0] == 'delete'}">The transaction has been removed successfully.</span>
+                            <span th:if="${param.success[0] == 'added'}">Transaction planned successfully. Funds have been blocked on your account.</span>
+                        </div>
+                        <div th:if="${param.error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table;">    
+                            <span th:if="${param.error[0] == 'lackOfMoney'}">Transaction has not been added. You don't have that much money on that account.</span>
+                            <span th:if="${param.error[0] == 'tooMuchMoney'}">The transaction has not been added. The debt is lower than the amount you want to pay.</span>
+                            <span th:if="${param.error[0] == 'emptyList'}">There are no transactions.</span>
+                            <span th:if="${param.error[0] == 'noTransactions'}">There are no transactions that match your criteria.</span>
+                            <span th:if="${param.error[0] == 'searchNull'}">You haven't specified any criteria.</span>
+                        </div>
+                        <div th:if="${message} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:text="${message}"></span>
+                        </div> 
+                        <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:text="${error}"></span>
+                        </div>  
+                    </div>
+                    
+                    
+                    <div class="row" style="margin-bottom:-55px;">
+                        <div class="col-md-10 margin-left" style="padding: 0;">
+                            <div class="free-outer-box right" id="hidden-box" style="width: 370px; float: right;">
+
+                                <span style="float:right; margin: 0;"><h5 title="Fill only the fields you want."><font id="suppressed-title" class="glyphicon-search-sign">Search transactions</font></h5></span>
+
+                                <div style="width: 370px; margin-top:18px;">                               
+
+                                    <form style="margin-top: 10px;" id="search" th:action="'/transactions/search'" th:object="${searchTemplate}" method="POST">
+                                        <select th:field="${searchTemplate.isPlanned}" style="display:none;">
+                                            <option th:value="'yes'"/>
+                                        </select>
+                                        
+                                        <input type="text" th:field="${searchTemplate.description}" class="free-box" style="display:inline; text-align: center;" placeholder="Description">
+                                        </input>
+
+
+                                        <select required th:field="${searchTemplate.fromAccount}" class="free-box">
+                                            <option selected th:value="''" th:text="' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- from account -- '"/>
+                                            <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;' + ${account.accountName} + ' &nbsp;' + ${account.bank}" th:value="${account.accountNumber}"/>
+                                        </select>
+
+                                        <select required th:field="${searchTemplate.toAccount}" class="free-box">
+                                            <option selected th:value="''" th:text="' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- to account -- '"/>
+                                            <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;' + ${account.accountName} + ' &nbsp;' + ${account.bank}" th:value="${account.accountNumber}"/>
+                                        </select>
+
+                                        <div>
+                                            <div style="display: block; float: left; width: 80px; padding-top: 2px; text-align: center;">
+                                                Start date:
+                                                <font style="margin-top: 14px; display: block;">End date:</font>
+                                            </div>
+
+
+                                            <div style="display: inline; float: right; width: 280px;">
+                                                <input type="date" id="datefield" class="free-box" th:field="${searchTemplate.startDate}" style="width: 280px; display:block; float: right; margin-right: 0; text-align: center;" onchange="setDateEnd()" />
+                                                <input type="date" id="datefield2" class="free-box" th:field="${searchTemplate.endDate}" style="width: 280px; display:block; float: right; margin-right: 0; text-align: center;" onchange="setDateStart()" />
+                                            </div>
+                                        </div>
+
+                                        <select required th:field="${searchTemplate.currency}" class="free-box">
+                                            <option selected th:value="''" th:text="' &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-- currency -- '"/>
+                                            <option  th:each="currency : ${currencies}" th:text="${currency.currency} + ' &nbsp;&nbsp;&nbsp;' + ${currency.name}" th:value="${currency.currency}" />
+                                        </select>
+
+
+                                            <a class="submit-form btn btn-warning text-white glyphicon-search-sign" style="margin: 5px 0 0 0; width: 370px;" href="#"></a>
+                                    </form>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    <div id="hidden-title-box" style="height: auto; width: 320px; display:block;">
+                        <span style="display:block; width: 100%; height:50px;" class="margin-left"><h3 id="suppressed">Planned transactions</h3></span>
+                        
+                        <a class="btn btn-primary right text-white glyphicon-plus-sign margin-left" style="float: left; margin-top: -5px; width:265px;" href="/transactions/newTransaction?planned=true">Plan a transaction</a>
+                    </div>
+                    
+                    <div class="container col-md-10 left container-content" style="padding: 0; margin-top: 2vh; min-height: 0;">
+                        <table class="custom-table">
+                                <tr>
+                                    <td style="width:150px;">Date</td>
+                                    <td>Amount</td>
+                                    <td>Currency</td>
+                                    <td>FROM</td>
+                                    <td>TO</td>
+                                    <td>Type</td>
+                                    <td>Description</td>
+                                    <td></td>
+                                </tr>
+                            
+                            <div th:if="${transactions != null}">
+                                <tr th:each="transaction : ${transactions}">
+                                    <td th:text="${#temporals.format(transaction.dateTime, 'dd MMM yyyy')}"/>
+                                    <td th:text="${transaction.amount}"/>                                
+                                    <td th:text="${transaction.currency}"/>
+                                    <td th:text="${transaction.accountNumberFrom}"/>
+                                    <td th:text="${transaction.accountNumberTo}"/>
+                                    <td th:text="${transaction.type}"/>
+                                    <td  style="max-width: 270px;" th:text="${transaction.description}"/>
+                                    <td>
+                                        <a style="text-decoration: none;" th:href="'/transactions/delete?planned=true&id=' + ${transaction.transactionId}" onclick="if (!(confirm('Are you sure you want to delete this transaction?'))) return false">
+                                            REMOVE
+                                        </a>
+                                    </td>
+                                </tr>
+                            </div>
+                                                        
+                            <div th:if="${#lists.isEmpty(transactions)}">
+                                <tr>
+                                    <td colspan="6"  style="padding: 10px 0;">
+                                        <i>No transactions. Add a new one by clicking the button below.</i>
+                                    </td>
+                                </tr>
+                            </div>
+                            
+                            
+                        </table>
+                    </div>
+                    
+                    <div class="col-md-10 margin-left" style="padding: 0;">
+                        
+                                                
+                        <a th:if="${message} != null" class="btn btn-warning left text-white back-sign" style="margin: 0;" href="/planned-transactions"> Back to <b>Planned transactions</b></a>
+                        
+                        <a class="btn btn-primary right text-white glyphicon-plus-sign" style="margin: 0;" href="/transactions/newTransaction?planned=true">Plan a transaction</a>
+                        
+                        
+                    </div>
+                    
+                                       
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function(){
+            $("a.submit-form").click(function(){
+                document.getElementById("search").submit();
+            }); 
+        });
+    </script>
+    
+    <script>
+        var today = new Date();
+        var dd = today.getDate()+1;
+        var mm = today.getMonth()+1; //January is 0!
+        var yyyy = today.getFullYear();
+         if(dd<10){
+                dd='0'+dd
+            } 
+            if(mm<10){
+                mm='0'+mm
+            } 
+
+        today = yyyy+'-'+mm+'-'+dd;
+        document.getElementById("datefield").setAttribute("min", today);
+        document.getElementById("datefield2").setAttribute("min", today);
+    </script>
+    
+    <script>
+        function setDateStart(){
+            var date = document.getElementById("datefield2").value;
+            document.getElementById("datefield").setAttribute("max", date);
+        }
+        
+        function setDateEnd(){
+            var date = document.getElementById("datefield").value;
+            document.getElementById("datefield2").setAttribute("min", date);
+        }
+    </script>
+    
+    </body>
+</html>

@@ -1,0 +1,637 @@
+﻿<!doctype html>
+<html lang="pl">
+    <head>
+        <title>New transaction</title>
+        
+        
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse show">
+                            <li class="nav-item nav-button-active">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                            
+                            <!--
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/settings">                                
+                                <span class="collapsed-text-icon settings-sign"></span>
+                                Settings
+                            </a>
+                            </li>
+                            -->
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    
+                    <div style="padding-top: 1vh; padding-bottom: svh;">
+                        <div th:if="${param.success} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">
+                            <span th:if="${param.success[0] == 'delete'}">The transaction has been removed successfully.</span>
+                            <span th:if="${param.success[0] == 'added'}">Transaction added successfully.</span>
+                        </div>
+                        <div th:if="${param.error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">    
+                            <span th:if="${param.error[0] == 'lackOfMoney'}">Transaction has not been added. You don't have that much money on that account.</span>
+                            <span th:if="${param.error[0] == 'tooMuchMoney'}">The transaction has not been added. The debt is lower than the amount you tried to pay.</span>
+                            <span th:if="${param.error[0] == 'emptyList'}">There are no transactions.</span>
+                            <span th:if="${param.error[0] == 'noTransactions'}">There are no transactions that match your criteria.</span>
+                            <span th:if="${param.error[0] == 'searchNull'}">You haven't specified any criteria.</span>
+                        </div>
+                        <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table; margin-bottom: 5vh;">
+                            <span th:text="${error}"></span>
+                        </div>
+                    </div>    
+                    
+                    <h3 class="margin-left" style="margin-bottom: 5vh;"><center>New transaction</center></h3>
+                    
+                    <div class="container col-md-7 left container-content" style="padding: 0; min-height: 0; margin: auto;">
+                        <ul class="nav nav-pills custom-color" style="margin-bottom: 25px;">
+                            <li class="nav-item" style="width: 12%"><a href="#incoming" data-toggle="tab" class="nav-link active">Incoming</a></li>
+                            <li class="nav-item" style="width: 12%"><a href="#outgoing" data-toggle="tab" class="nav-link">Outgoing</a></li>
+                            <li class="nav-item" style="width: 29%"><a href="#between" data-toggle="tab" class="nav-link">Between own accounts</a></li>
+                            <li class="nav-item" style="width: 12%"><a href="#deposit" data-toggle="tab" class="nav-link">Deposit</a></li>
+                            <li class="nav-item" style="width: 15%"><a href="#withdraw" data-toggle="tab" class="nav-link">Withdraw</a></li>
+                            <li class="nav-item" style="width: 20%"><a href="#debt" data-toggle="tab" class="nav-link">Debt repayment</a></li>
+                        </ul>
+                        
+                        
+                        <div id="my-tab-content" class="tab-content">
+                            
+                            
+                            <!-- INCOMING -->
+                            
+                            <div class="tab-pane active" id="incoming">
+                                
+                                
+                                <form th:action="'/transactions/newTransaction/add'" th:object="${transaction}" method="POST" id="incomingForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${transaction.type}" style="display: none;">
+                                        <option th:value="'incoming'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td>My account*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberTo}" required style="height: 30px;">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}"/>
+                                            </select>
+                                            </td>                                            
+                                        </tr>
+
+                                        <tr>
+                                            <td title="Up to 26 characters">FROM*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.accountNumberFrom}" pattern="([1-9][0-9]*|0){1,26}" maxlength="26" required/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${transaction.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Currency*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <select th:field="${transaction.currency}" required style="height: 30px;">
+                                                    <option th:value="''" th:text="''"/>
+                                                    <option  th:each="currency : ${currencies}" th:text="${currency.currency} + ' &nbsp;&nbsp;&nbsp;' + ${currency.name}" th:value="${currency.currency}" />
+                                                </select>
+                                            </td>
+                                        </tr>   
+                                        
+                                        <tr>
+                                            <td title="Up to 60 characters">Description*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.description}"  maxlength="60" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}" required/></td>
+                                        </tr>                                        
+                                        
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the transaction">
+                                </div>
+                                     
+                            </form>
+                                
+                    </div>                           
+                            
+                            
+                    
+                         <!-- OUTGOING -->
+                           
+                            
+                            <div class="tab-pane" id="outgoing">
+                                <form th:action="'/transactions/newTransaction/add'" th:object="${transaction}" method="POST"  id="outgoingForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${transaction.type}" style="display: none;">
+                                        <option th:value="'outgoing'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td>From account*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberFrom}" required style="height: 30px; text-overflow: ellipsis;" class="select1" onchange="addCurrencyOutgoing()">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}" th:title="${account.currency}" />
+                                            </select>
+                                            </td>                                            
+                                        </tr>
+
+                                        <tr>
+                                            <td title="Up to 26 characters">TO*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.accountNumberTo}" pattern="([1-9][0-9]*|0){1,26}" maxlength="26" required/></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${transaction.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <input type="text" style="height: 30px" class="outgoing_currency" th:field="${transaction.currency}" value="" disabled/>
+                                            </td>
+                                        </tr>   
+                                        
+                                        
+                                        <tr>
+                                            <td title="Up to 60 characters">Description*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.description}"  maxlength="60" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}" required/></td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Expenditure type</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <select th:field="${transaction.expenditureType}" style="height: 30px;" id="expType"> 
+                                                    <option th:value="''" th:text="''" title="''"/>
+                                                    <option  th:each="expType : ${expenditureTypes}" th:text="${expType.expenditureType}" th:value="${expType.expenditureType}" />
+                                                </select>
+                                            </td>
+                                        </tr>  
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the transaction">
+                                </div>
+                                     
+                            </form>
+                            </div>
+                            
+                            
+                            <!-- BETWEEN OWN ACCOUNTS -->
+                            
+                            
+                            <div class="tab-pane" id="between">
+                                <form th:action="'/transactions/newTransaction/add'" th:object="${transaction}" method="POST" id="betweenForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${transaction.type}" style="display: none;">
+                                        <option th:value="'between'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td>FROM*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberFrom}" required style="height: 30px; text-overflow: ellipsis;" class="select2" onchange="addCurrencyBetween()" id="accountNumber1">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}" th:title="${account.currency}" />
+                                            </select>
+                                            </td>                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>TO*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberTo}" required style="height: 30px; text-overflow: ellipsis;"  id="accountNumber2">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}" th:title="${account.currency}" />
+                                            </select>
+                                            </td>                                            
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${transaction.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <input type="text" style="height: 30px" th:field="${transaction.currency}" class="between_currency" value="" disabled/>
+                                            </td>
+                                        </tr>   
+                                        
+                                        
+                                        <tr>
+                                            <td title="Up to 60 characters">Description*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.description}"  maxlength="60" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}" required/></td>
+                                        </tr>
+                                                                                
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the transaction">
+                                </div>
+                                     
+                            </form>
+                            </div>
+                            
+                            
+                            <!-- DEPOSIT -->
+                            
+                            <div class="tab-pane" id="deposit">
+                                <form th:action="'/transactions/newTransaction/add'" th:object="${transaction}" method="POST"  id="depositForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${transaction.type}" style="display: none;">
+                                        <option th:value="'deposit'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td>Account*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberTo}" required style="height: 30px; text-overflow: ellipsis;" class="select3" onchange="addCurrencyDeposit()">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}" th:title="${account.currency}" />
+                                            </select>
+                                            </td>                                            
+                                        </tr>                                       
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${transaction.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <input type="text" style="height: 30px" th:field="${transaction.currency}" class="deposit_currency" value="" disabled/>
+                                            </td>
+                                        </tr>   
+                                        
+                                        
+                                        <tr>
+                                            <td title="Up to 60 characters">Description</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.description}"  maxlength="60" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}"/></td>
+                                        </tr>                                        
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the transaction">
+                                </div>
+                                     
+                            </form>
+                            </div>
+                            
+                            
+                            <!-- WITHDRAWAL -->
+                            
+                            <div class="tab-pane" id="withdraw">
+                                <form th:action="'/transactions/newTransaction/add'" th:object="${transaction}" method="POST"  id="withdrawForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${transaction.type}" style="display: none;">
+                                        <option th:value="'withdraw'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td>Account*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberFrom}" required style="height: 30px; text-overflow: ellipsis;" class="select4" onchange="addCurrencyWithdraw()">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}" th:title="${account.currency}" />
+                                            </select>
+                                            </td>                                            
+                                        </tr>                                       
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${transaction.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <input type="text" th:field="${transaction.currency}" style="height: 30px" class="withdraw_currency" value="" disabled/>
+                                            </td>
+                                        </tr>   
+                                        
+                                        
+                                        <tr>
+                                            <td title="Up to 60 characters">Description</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.description}"  maxlength="60" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}"/></td>
+                                        </tr>                                        
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the transaction">
+                                </div>
+                                     
+                            </form>
+                            </div>
+                            
+                            
+                            <!-- DEBTS -->
+                            
+                            <div class="tab-pane" id="debt">
+                                <form th:action="'/transactions/newTransaction/add'" th:object="${transaction}" method="POST"  id="debtForm">
+                            
+                                    <!-- hidden input - select because of conflict of th:field and value properties -->
+                                    <select th:field="${transaction.type}" style="display: none;">
+                                        <option th:value="'debt'" />
+                                    </select>
+                                    
+                            
+                                <table class="custom-table">
+                                    <tbody class="form-table">
+
+
+                                        <tr>
+                                            <td>From account*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                            <select th:field="${transaction.accountNumberFrom}" required style="height: 30px; text-overflow: ellipsis;" class="select5" onchange="addCurrencyDebt()">
+                                                <option th:value="''" th:text="''"/>
+                                                <option  th:each="account : ${accounts}" th:text="${account.accountNumber} + ' &nbsp;&nbsp; ' + ${account.accountName} + ' (' + ${account.currency} + ') &nbsp;&nbsp; ' + ${account.bank}" th:value="${account.accountNumber}" th:title="${account.currency}" />
+                                            </select>
+                                            </td>                                            
+                                        </tr>
+
+                                        <tr>
+                                            <td>Debt to repay*</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <select th:field="${transaction.debtId}" style="height: 30px;" required>
+                                                    <option  th:each="debt : ${debts}" th:text="${debt.debtName} + '&nbsp;&nbsp; - &nbsp;&nbsp;' + ${debt.amount} + '&nbsp;' + ${debt.currency}" th:value="${debt.debtId}" />
+                                                </select>
+                                            </td>
+                                        </tr> 
+
+                                        <tr>
+                                            <td>Amount*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="number" step="0.01" min="0.01" th:field="${transaction.amount}" pattern="(^\d+\.?\d+$)|(^\d+%$)" required /></td>
+                                        </tr>
+
+                                        
+                                        <tr>
+                                            <td>Currency</td>
+                                            <td style="padding-right: 55px; width: 70%;">
+                                                <input type="text" th:field="${transaction.currency}" style="height: 30px" class="debt_currency" value="" disabled/>
+                                            </td>
+                                        </tr>   
+                                        
+                                        
+                                        <tr>
+                                            <td title="Up to 60 characters">Description*</td>
+                                            <td style="padding-right: 55px; width: 70%;"><input type="text" th:field="${transaction.description}" maxlength="60" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}" required/></td>
+                                        </tr>                                      
+                                        
+                                    </tbody>
+                                </table>
+                                    
+                                <div class="col-md-7 left margin-left" style="padding: 2.5vh 0 6vh 0;">
+                                    <input type="submit" class="btn btn-primary right text-white" value="Save the transaction">
+                                </div>
+                                     
+                            </form>
+                            </div>
+                        </div>
+                    
+                    
+                    </div>
+                        
+                       
+                    
+                    <a href="/transaction-history" class="btn btn-warning margin-left back-sign" style="margin-top: 7vh; color: white; position: fixed; bottom: 0; margin-bottom: 5vh;">
+                        Back to <b>Transaction history</b>
+                    </a>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>    
+    
+       
+    <script>        
+        function addCurrencyOutgoing() {
+            $('select.select').on('change', addC1());
+        }
+        
+        function addCurrencyBetween() {
+            $('select.select').on('change', addC2());
+        }
+        
+        function addCurrencyDeposit() {
+            $('select.select').on('change', addC3());
+        }
+        
+        function addCurrencyWithdraw() {
+            $('select.select').on('change', addC4());
+        }
+        
+        function addCurrencyDebt() {
+            $('select.select').on('change', addC5());
+        }
+        
+        function addC1() {            
+                $('input.outgoing_currency').val($('select.select1 option:selected').prop('title'));
+        }
+        
+        function addC2() {            
+                $('input.between_currency').val($('select.select2 option:selected').prop('title'));
+        }
+        
+        function addC3() {            
+                $('input.deposit_currency').val($('select.select3 option:selected').prop('title'));
+        }
+        
+        function addC4() {            
+                $('input.withdraw_currency').val($('select.select4 option:selected').prop('title'));
+        }
+        
+        function addC5() {            
+                $('input.debt_currency').val($('select.select5 option:selected').prop('title'));
+        }
+    </script>
+    
+    <script>
+        $(document).ready(function() {           
+            
+            $('#betweenForm').submit(function(e) {
+                var x = $('#accountNumber1').val();
+                var y = $('#accountNumber2').val();
+                
+                
+                if (x === y) {
+                    alert("You can't make a transfer to the same bank account.");
+                    return false;
+                } 
+                else {
+                    return true;
+                }
+            })      
+        })        
+    </script>
+    
+    
+            
+    </body>
+</html>

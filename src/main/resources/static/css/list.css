@@ -1,0 +1,199 @@
+/* ----- TABLES SETTINGS ----- */
+
+table {   
+	border-collapse:collapse;
+	/* border-bottom:1px solid gray; */
+	font-family: Tahoma,Verdana,Segoe,sans-serif;
+	width:100%;
+        margin: 0;
+}
+ 
+th {
+	border-bottom:1px solid gray;
+	background:none repeat scroll 0 0 #09c332;
+	padding:10px;
+	color: #FFFFFF;
+}
+
+tr {
+	/* border-top:1px solid gray; */
+	text-align:center;	
+}
+
+ 
+tr:nth-child(even) {background: #FFFFFF}
+tr:nth-child(odd) {background: #EEEEEE}	
+tr:nth-child(1) {
+    background: #e91e63;
+    color: white;
+}
+tr:nth-child(1):hover {
+    color: black;
+}
+
+.form-table tr:nth-child(1) { 
+    background: #EEEEEE; 
+    color: black;
+}
+.form-table tr {
+    padding: 5vh;
+}
+
+.form-table input {
+    width: 100%;
+    float: right;
+}
+
+.form-table td {
+    min-width: 170px;
+}
+
+.custom-table td {
+    padding: 10px 10px;
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.custom-table td::-webkit-scrollbar {
+    display: none;
+}
+
+.custom-table tr:hover {
+    background: #f2f5dc;
+}
+
+.form-table select {
+    width: 100%;
+    float: right;
+}
+
+.custom-color > li.nav-item > a.active {
+    background: white;   
+    color: black;
+    border-width: 0 2px 0 2px;
+    border-color: white;
+    border-radius: 0;
+}
+
+.custom-color > li.nav-item > a.active:hover {
+    color: #583131; 
+    background: white;
+    transition: all .4s linear;
+}
+
+.custom-color > li.nav-item > a {
+    background: #e91e63;
+    color: white;
+    border-width: 0 2px 0 2px;
+    border-color: white;
+    border-radius: 0;
+}
+
+.custom-color > li.nav-item > a:hover {
+    background: #bc0140;    
+    transition: background .4s linear;
+}
+
+.custom-color > li {
+    text-align: center;
+}
+
+
+/* --- collapsible menu --- */
+
+
+.free-box {
+    border-radius: 3px;
+    border-width: 1px;
+    border-style: solid;
+    background: transparent;
+    width: 370px;
+    margin: 0 15px 10px 0;
+    display: block;
+}
+
+
+.free-outer-box {
+    height: auto;
+    border-radius: 6px;
+    border-width: 0px;    
+    border-style: solid;
+    background: transparent;
+    margin: 0 15px 10px 0;
+}
+
+
+
+#hidden-box {
+    max-height: 30px;
+    transition: max-height 1s ease-out;
+    overflow: hidden;
+}
+
+#hidden-box > span > h5 > #suppressed-title {
+    color: rgba(0,0,0,0.2);
+    transition: color 1s;
+}
+
+#hidden-box:hover > span > h5 > #suppressed-title {
+    color: rgba(0,0,0,0.9);
+    transition: color 0.75s;
+}
+
+#hidden-box:hover {
+    max-height: 2000px;
+    transition: max-height 1s ease-in;
+}
+
+#hidden-title-box {
+    max-height: 45px;
+    width: 350px;
+    margin-bottom: -10px;
+    transition: max-height 1s ease-out;
+    overflow: hidden;
+}
+
+#hidden-title-box:hover {
+    max-height: 200px;
+    transition: max-height 0.3s ease-in;
+}
+
+
+/* --- other --- */
+
+
+.modest-link {
+    color: black;
+    transition: all .15s linear;
+}
+
+.modest-link:hover {
+    color: #e91e63;
+    text-decoration: none;
+    transition: all .15s linear;
+}
+
+.remove-sign-style {
+    color: black;
+}
+
+.remove-sign-style:hover {
+    color: red;
+}
+
+.accept-sign-style {
+    color: black;
+}
+
+.accept-sign-style:hover {
+    color: green;
+}
+
+.cancel-sign-style {
+    color: black;
+}
+
+.cancel-sign-style:hover {
+    color: orange;
+}

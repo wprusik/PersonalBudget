@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>PersonalBudget - online budgeting app</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button-active">
+                            <a class="menu-link" href="#">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                            
+                            <!--
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/settings">                                
+                                <span class="collapsed-text-icon settings-sign"></span>
+                                Settings
+                            </a>
+                            </li>
+                            -->
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    
+                    <div class="container col-md-8">
+                        <img src="/img/logo-text.png" width="100%" height="*" />
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-1"></div>
+                        
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="/accounts" style="color: black; text-decoration: none;"><h2>Accounts</h2></a>
+                                <a href="/accounts/newAccount" style="color: black; text-decoration: none;">&#187; Add a new account</a>
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/account.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="#" style="color: black; text-decoration: none;"><h2>Transactions</h2></a>
+                                <a href="/transaction-history" style="color: black; text-decoration: none;">&#187; Transaction history</a><br />
+                                <a href="/transactions/newTransaction?planned=false" style="color: black; text-decoration: none;">&nbsp;<i>&#187; New transaction</i></a><br />
+                                <a href="/planned-transactions" style="color: black; text-decoration: none;">&#187; Planned transactions</a><br />
+                                <a href="/transactions/newTransaction?planned=true" style="color: black; text-decoration: none;">&nbsp;<i>&#187; Plan a transaction</i></a><br />
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/transactions.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-1"></div>    
+                    </div>
+                    
+                    
+                    <div class="row">
+                        <div class="col-1"></div>
+                        
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="/budgets" style="color: black; text-decoration: none;"><h2>Budgets</h2></a>
+                                <a href="/budgets/new" style="color: black; text-decoration: none;">&#187; New budget</a><br />
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/budget.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="/debts" style="color: black; text-decoration: none;"><h2>Debts</h2></a>                                
+                                <a href="/debts/new" style="color: black; text-decoration: none;">&#187; Add a new debt</a>
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/debt.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-1"></div>    
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-1"></div>
+                        
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="/expenditure-categories" style="color: black; text-decoration: none;"><h2>Expenditure categories</h2></a>
+                                <!--<a href="/transaction-history" style="color: black; text-decoration: none;">&#187; Transaction history</a><br /> -->
+                                <a href="/expenditure-categories/new" style="color: black; text-decoration: none;">&#187; Add a new category</a>
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/expenditurecategories.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="/spending-structure" style="color: black; text-decoration: none;"><h2>Spending structure</h2></a>
+                                <!-- <a href="/accounts/newAccount" style="color: black; text-decoration: none;">&#187; Add a new account</a> -->
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/spendingstructure.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-1"></div>    
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-3"></div>
+                        
+                        <div class="container col-md-4 container-content">
+                            <div class="row">
+                                <div class="col-8">
+                                <a href="#" style="color: black; text-decoration: none;"><h2>Other</h2></a>
+                                <a href="/exchange-rates" style="color: black; text-decoration: none;">&#187; Exchange rates</a><br />
+                                <a href="/about" style="color: black; text-decoration: none;">&#187; About</a>
+                                <form th:action="'/logout'" method="POST" id="logout">
+                                    <a href="#" class="submit" style="color: black; text-decoration: none;">
+                                        &#187; Logout
+                                    </a>
+                                </form>
+                                </div>
+
+                                <div class="col-4">
+                                    <img src="/img/icons/black/budget.png" width="75%" style="float: right;" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-3"></div>    
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>
+            
+    </body>
+</html>
