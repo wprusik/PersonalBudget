@@ -11,8 +11,8 @@ PersonalBudget is a tool for comprehensive management of your money. It allows y
 ### Startup instructions:
 1.	Import the project into your IDE (it&#39;s a Spring Boot project)
 2.	Install XAMPP or its equivalent, run the MySQL server
-3.	Go to the phpMyAdmin and run the SQL script from the **personal_budget.sql** file
-4.	On the MySQL server, create a user and grant him all privileges to the **personal_budget** database, e.g.
+3.	Run the SQL script from the **personal_budget.sql** file
+4.	Create a user on the MySQL server and grant him all privileges to the **personal_budget** database, e.g.
 ```sql
 CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON `personal_budget`.* TO 'admin'@'localhost';
