@@ -1,14 +1,14 @@
 ## PersonalBudget
 
-PersonalBudget is a tool for comprehensive management of your money. It allows you to manage bank accounts, add current, search and plan transactions, create your own budgets, manage your debts, generate charts to trackyour spending structure, convert currencies, and so on.
+PersonalBudget is a tool for comprehensive management of your money. It allows you to manage bank accounts, add current, search and plan transactions, create your own budgets, manage your debts, generate charts to track your spending structure, convert currencies, and so on.
 
-#### Technologies used:
+### Technologies used:
 - Spring Boot with Spring Security, Hibernate, REST
 - Thymeleaf, Bootstrap
 - JavaScript, jQuery
 * HighCharts library - *used under the Creative Commons Attribution-NonCommercial 3.0 license*
 
-#### Startup instructions:
+### Startup instructions:
 1.	Import the project into your IDE (it&#39;s a Spring Boot project)
 2.	Install XAMPP or its equivalent, run the MySQL server
 3.	Go to the phpMyAdmin and run the SQL script from the **personal_budget.sql** file
@@ -29,6 +29,22 @@ GRANT ALL PRIVILEGES ON `personal_budget`.* TO 'admin'@'localhost';
 ###### Additional information:
 &#42;*The site is not yet full responsive, so far it has been optimized for fullHD resolution (1920x1080).*
 
-&#42;&#42;*Proper working of this application depends on the availability of [www.exchangeratesapi.io](http://www.exchangeratesapi.io "www.exchangeratesapi.io") website, from which current exchange rates are retrieved. If it isn&#39;t available, the application will inform you about itby displaying the error page with the appropriate information.*
+&#42;&#42;*Proper working of this application depends on the availability of [www.exchangeratesapi.io](http://www.exchangeratesapi.io "www.exchangeratesapi.io") website, from which current exchange rates are retrieved. If it isn&#39;t available, the application will inform you about it by displaying the error page with the appropriate information.*
 
-&#42;&#42;&#42;*The registration process has been maximally simplified and the login page has no password recovery optiondue to the fact that the application was not created with a view to its subsequent implementation.*
+&#42;&#42;&#42;*The registration process has been maximally simplified and the login page has no password recovery option due to the fact that the application was not created with a view to its subsequent implementation.*
+
+-------------
+&nbsp;
+
+![1](https://user-images.githubusercontent.com/39334436/60954598-8dbf5e80-a2ff-11e9-9239-599796bcd14f.png)
+![2](https://user-images.githubusercontent.com/39334436/60954599-8e57f500-a2ff-11e9-89d9-8bbfe50eb127.png)
+![3](https://user-images.githubusercontent.com/39334436/60954603-8ef08b80-a2ff-11e9-9d73-d0abae9f2625.png)
+![4](https://user-images.githubusercontent.com/39334436/60954604-8ef08b80-a2ff-11e9-9249-fb46094eb49e.png)
+![5](https://user-images.githubusercontent.com/39334436/60954605-8f892200-a2ff-11e9-9f02-a0882f83c632.png)
+![6](https://user-images.githubusercontent.com/39334436/60954606-9021b880-a2ff-11e9-8ab5-52b1ecaac328.png)
+![7](https://user-images.githubusercontent.com/39334436/60954607-9021b880-a2ff-11e9-8831-586b989bfc6c.png)
+![8](https://user-images.githubusercontent.com/39334436/60954608-9021b880-a2ff-11e9-8887-ee4cca96e350.png)
+
+&nbsp;
+[![https://youtu.be/_ETkTrjJlw0](https://user-images.githubusercontent.com/39334436/60954611-9021b880-a2ff-11e9-8b4e-b09a041d6250.png)](https://youtu.be/_ETkTrjJlw0)
+&nbsp;
