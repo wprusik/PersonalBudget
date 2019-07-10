@@ -166,7 +166,7 @@
                                     <td>
                                         <a th:href="'/accounts/edit?accountNumber=' + ${account.accountNumber}">EDIT</a> 
                                         | 
-                                        <a th:href="'/accounts/delete?accountNumber=' + ${account.accountNumber}" onclick="if (!(confirm('Are you sure you want to delete that account permanently?'))) return false">
+                                        <a th:href="'/accounts/delete?accountNumber=' + ${account.accountNumber}" onclick="if (!(confirm('All transactions correlated with this account and the account itself will be permanently deleted. Are you sure?'))) return false">
                                             REMOVE
                                         </a>
                                     </td>

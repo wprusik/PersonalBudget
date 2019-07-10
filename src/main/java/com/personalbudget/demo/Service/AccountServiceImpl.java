@@ -2,6 +2,7 @@ package com.personalbudget.demo.Service;
 
 import com.personalbudget.demo.DAO.AccountDAO;
 import com.personalbudget.demo.Entity.Account;
+import com.personalbudget.demo.Entity.Transaction;
 import java.util.List;
 import javax.persistence.OneToMany;
 import javax.transaction.Transactional;
@@ -50,5 +51,4 @@ public class AccountServiceImpl implements AccountService {
     public List<String> getAllAccountNumbers() {
         return accountDAO.getAllAccountNumbers();
     }
-
 }

@@ -2,7 +2,7 @@ package com.personalbudget.demo.Controller;
 
 import com.personalbudget.demo.Entity.Account;
 import com.personalbudget.demo.Entity.Currency;
-import com.personalbudget.demo.REST.ExchangeManager;
+import com.personalbudget.demo.Entity.Transaction;
 import com.personalbudget.demo.Service.AccountService;
 import com.personalbudget.demo.Service.CurrencyService;
 import com.personalbudget.demo.Service.TransactionService;
@@ -38,6 +38,16 @@ public class AccountsController {
     public String deleteAccount(@RequestParam("accountNumber") String accountNumber, RedirectAttributes redirectAttributes)
     {
         // delete the account
+        
+        List<Transaction> transactions = transactionService.getTransactions();
+        
+        for (Transaction item : transactions)
+        {
+            if (item.getAccountNumberFrom() != null)
+                if (item.getAccountNumberFrom().equals(accountNumber))
+                    transactionService.deleteTransaction(item.getTransactionId());
+        }
+        
         accountService.removeAccount(accountNumber);
         
         redirectAttributes.addAttribute("success", "delete");

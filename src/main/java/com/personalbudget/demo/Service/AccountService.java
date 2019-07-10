@@ -1,6 +1,7 @@
 package com.personalbudget.demo.Service;
 
 import com.personalbudget.demo.Entity.Account;
+import com.personalbudget.demo.Entity.Transaction;
 import java.util.List;
 
 
@@ -15,6 +16,6 @@ public interface AccountService {
     public void updateAccount(Account theAccount);
     
     public void removeAccount(String theAccountNumber);
-    
+        
     public List<String> getAllAccountNumbers();
 }
