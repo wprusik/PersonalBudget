@@ -18,8 +18,8 @@ CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin';
 GRANT ALL PRIVILEGES ON `personal_budget`.* TO 'admin'@'localhost';
 ```
 5.	*(optionally)* Edit the **application.properties** file located in the **src\main\resources** directory
-4a. If your MySQL server is running on a port other than 3306, set it in line 4
-4b. If you named the user differently than in the example from point 4, set the correct username and password in lines 5 and 6
+ * If your MySQL server is running on a port other than 3306, set it in line 4
+ * If you named the user differently than in the example from point 4, set the correct username and password in lines 5 and 6
 6.	Run the application by selecting **DemoApplication.java** as the main class
 
 &#42;*There is a test account prepared for a better presentation of the application capabilities (login: **test**   password: **test123**)*
