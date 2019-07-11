@@ -31,7 +31,7 @@ GRANT ALL PRIVILEGES ON `personal_budget`.* TO 'admin'@'localhost';
 
 &#42;&#42;*Proper working of this application depends on the availability of [www.exchangeratesapi.io](http://www.exchangeratesapi.io "www.exchangeratesapi.io") website, from which current exchange rates are retrieved. If it isn&#39;t available, the application will inform you about it by displaying the error page with the appropriate information.*
 
-&#42;&#42;&#42;*The registration process has been maximally simplified and the login page has no password recovery option due to the fact that the application was not created with a view to its subsequent implementation.*
+&#42;&#42;&#42;*The registration process has been maximally simplified and the login page has no password recovery option due to the fact that the application was not created with a view to its implementation.*
 
 -------------
 &nbsp;
