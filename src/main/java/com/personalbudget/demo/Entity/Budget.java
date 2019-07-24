@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="budgets")
 @Table(name="budgets")
+@Getter @Setter
 public class Budget {
 
     @Id
@@ -34,51 +37,4 @@ public class Budget {
     public Budget() {
     }
 
-    public int getBudgetId() {
-        return budgetId;
-    }
-
-    public void setBudgetId(int budgetId) {
-        this.budgetId = budgetId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getBudgetName() {
-        return budgetName;
-    }
-
-    public void setBudgetName(String budgetName) {
-        this.budgetName = budgetName;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
 }

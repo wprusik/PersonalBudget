@@ -6,9 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="debts")
 @Table(name="debts")
+@Getter @Setter
 public class Debt {
 
     @Id
@@ -35,61 +38,5 @@ public class Debt {
     private String currency;
 
     public Debt() {
-    }
-
-    public String getDebtName() {
-        return debtName;
-    }
-
-    public void setDebtName(String debtName) {
-        this.debtName = debtName;
-    }
-
-    public String getCreditor() {
-        return creditor;
-    }
-
-    public void setCreditor(String creditor) {
-        this.creditor = creditor;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public float getAmount() {
-        return amount;
-    }
-
-    public void setAmount(float amount) {
-        this.amount = amount;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public int getDebtId() {
-        return debtId;
-    }
-
-    public void setDebtId(int debtId) {
-        this.debtId = debtId;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
     }
 }

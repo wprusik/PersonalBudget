@@ -4,10 +4,13 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 
 @Entity(name="authorities")
 @Table(name="authorities")
+@Getter @Setter
 public class Authority {
 
     @Id    
@@ -19,22 +22,4 @@ public class Authority {
 
     public Authority() {
     }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getAuthority() {
-        return authority;
-    }
-
-    public void setAuthority(String authority) {
-        this.authority = authority;
-    }
-    
-    
 }

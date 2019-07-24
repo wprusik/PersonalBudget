@@ -4,9 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="expenditure_categories")
 @Table(name="expenditure_categories")
+@Getter @Setter
 public class ExpenditureCategory {
     
     @Id
@@ -25,25 +28,5 @@ public class ExpenditureCategory {
 
     public String getExpenditureType() {
         return expenditureType;
-    }
-
-    public void setExpenditureType(String expenditureType) {
-        this.expenditureType = expenditureType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 }

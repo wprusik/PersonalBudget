@@ -5,9 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity(name="users")
 @Table(name="users")
+@Getter @Setter
 public class User {
 
     @Id
@@ -23,45 +26,7 @@ public class User {
     @Transient
     private String repeatPassword;
     
-    /*
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name="authorities",joinColumns=@JoinColumn(name="username"), inverseJoinColumns=@JoinColumn(name="authority"))
-    private List<Authority> authorities;
-    */
-
     public User() {
         
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public int isEnabled() {
-        return enabled;
-    }
-
-    public void setEnabled(int enabled) {
-        this.enabled = enabled;
-    }
-
-    public String getRepeatPassword() {
-        return repeatPassword;
-    }
-
-    public void setRepeatPassword(String repeatPassword) {
-        this.repeatPassword = repeatPassword;
-    }
+    }    
 }
