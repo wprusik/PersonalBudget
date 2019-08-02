@@ -45,6 +45,3 @@ GRANT ALL PRIVILEGES ON `personal_budget`.* TO 'admin'@'localhost';
 ![7](https://user-images.githubusercontent.com/39334436/60954607-9021b880-a2ff-11e9-8831-586b989bfc6c.png)
 ![8](https://user-images.githubusercontent.com/39334436/60954608-9021b880-a2ff-11e9-8887-ee4cca96e350.png)
 
-&nbsp;
-[![https://youtu.be/_ETkTrjJlw0](https://user-images.githubusercontent.com/39334436/60954611-9021b880-a2ff-11e9-8b4e-b09a041d6250.png)](https://youtu.be/_ETkTrjJlw0)
-&nbsp;
