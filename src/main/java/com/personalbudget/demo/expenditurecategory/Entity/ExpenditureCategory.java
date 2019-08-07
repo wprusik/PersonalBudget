@@ -22,10 +22,7 @@ public class ExpenditureCategory {
     @Column(name="username")
     private String username;
 
-    public ExpenditureCategory() {        
-    }
-
-    public String getExpenditureType() {
-        return expenditureType;
+    public ExpenditureCategory() {   
+        
     }
 }

@@ -8,34 +8,33 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.personalbudget.demo.security.SecurityManager;
+import com.personalbudget.demo.security.SecurityService;
 
 @Repository
 public class AccountDAOImpl implements AccountDAO {
 
     private EntityManager entityManager;
-    private SecurityManager securityManager;
+    private SecurityService securityService;
     
     @Autowired
-    public AccountDAOImpl(EntityManager theEntityManager) {
-        entityManager = theEntityManager;
+    public AccountDAOImpl(EntityManager entityManager, SecurityService securityService) {
+        this.entityManager = entityManager;
+        this.securityService = securityService;
     }
     
     @Override
     public List<Account> getAccounts() {
-        Session currentSession = entityManager.unwrap(Session.class);               
-        String username = securityManager.getUsernameFromSecurityContext();
-        
+        Session currentSession = entityManager.unwrap(Session.class);      
+        String username = securityService.getUsernameFromSecurityContext();        
         Query<Account> theQuery = currentSession.createQuery("from accounts WHERE username='" + username + "'", Account.class);
-        List<Account> accounts = (List<Account>) theQuery.getResultList();
-                
+        List<Account> accounts = (List<Account>) theQuery.getResultList();                
         return accounts;
     }
 
     @Override
     public Account getAccount(String theAccountNumber) {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = securityService.getUsernameFromSecurityContext();
         
         String myQuery = "FROM accounts WHERE (username='" + username + "' AND account_number='" + theAccountNumber + "')";
         Query<Account> theQuery = currentSession.createQuery(myQuery, Account.class);
@@ -59,7 +58,7 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public void removeAccount(String theAccountNumber) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = securityService.getUsernameFromSecurityContext();
         
         String myQuery = "FROM accounts WHERE (username='" + username + "' AND account_number='" + theAccountNumber + "')";
         Query<Account> theQuery = currentSession.createQuery(myQuery, Account.class);
@@ -71,7 +70,7 @@ public class AccountDAOImpl implements AccountDAO {
     @Override
     public List<String> getAllAccountNumbers() {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = securityService.getUsernameFromSecurityContext();
         
         String myQuery = "FROM accounts WHERE (username='" + username + "')";
         Query<Account> theQuery = currentSession.createQuery(myQuery, Account.class);

@@ -1,8 +1,8 @@
 package com.personalbudget.demo.user.dao;
 
-import com.personalbudget.demo.user.Authority;
+import com.personalbudget.demo.user.entity.Authority;
 import java.util.List;
-import com.personalbudget.demo.user.User;
+import com.personalbudget.demo.user.entity.User;
 import java.util.ArrayList;
 
 public interface UserDAO {

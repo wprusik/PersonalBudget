@@ -106,15 +106,6 @@
                             </a>
                             </li>
                             
-                            <!--
-                            <li class="nav-item nav-button">
-                            <a class="menu-link menu-link-expanded" href="/settings">                                
-                                <span class="collapsed-text-icon settings-sign"></span>
-                                Settings
-                            </a>
-                            </li>
-                            -->
-                            
                             <li class="nav-item nav-button">
                             <form th:action="'/logout'" method="POST" id="logout">
                             <a class="menu-link menu-link-expanded submit" href="#">
@@ -135,11 +126,15 @@
                     
                     
                     <div style="padding-top: 1vh; padding-bottom: 5vh;">
-                    <div th:if="${param.success} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table;">
-                        <span th:if="${param.success[0] == 'delete'}">The account has been removed.</span>
-                        <span th:if="${param.success[0] == 'accountAdded'}">Account created successfully.</span>
-                        <span th:if="${param.success[0] == 'accountUpdate'}">Account updated successfully.</span>
-                    </div>
+                        <div th:if="${param.success} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:if="${param.success[0] == 'delete'}">The account has been removed.</span>
+                            <span th:if="${param.success[0] == 'accountAdded'}">Account created successfully.</span>
+                            <span th:if="${param.success[0] == 'accountUpdate'}">Account updated successfully.</span>
+                        </div>  
+                        
+                        <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:text="${error}"></span>
+                        </div>
                     </div>
                     
                     

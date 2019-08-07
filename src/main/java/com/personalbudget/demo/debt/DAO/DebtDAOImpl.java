@@ -1,7 +1,7 @@
 package com.personalbudget.demo.debt.dao;
 
 import com.personalbudget.demo.debt.entity.Debt;
-import com.personalbudget.demo.security.SecurityManager;
+import com.personalbudget.demo.security.SecurityService;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.hibernate.Session;
@@ -14,39 +14,54 @@ public class DebtDAOImpl implements DebtDAO {
 
     
     private EntityManager entityManager;
-    private SecurityManager securityManager;
+    private SecurityService securityService;
     
     @Autowired
-    public DebtDAOImpl(EntityManager theEntityManager) {
-        entityManager = theEntityManager;
+    public DebtDAOImpl(EntityManager entityManager, SecurityService securityService) {
+        this.entityManager = entityManager;
+        this.securityService = securityService;
     }
     
     @Override
     public List<Debt> getDebts() {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
-        
+        String username = securityService.getUsernameFromSecurityContext();        
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE username='" + username + "'", Debt.class);
-        List<Debt> debts = (List<Debt>) theQuery.getResultList();
-        
+        List<Debt> debts = (List<Debt>) theQuery.getResultList();        
         return debts;
     }
 
     @Override
+    public List<Debt> getOnlyDebts() {
+        Session currentSession = entityManager.unwrap(Session.class);
+        String username = securityService.getUsernameFromSecurityContext();        
+        Query<Debt> theQuery = currentSession.createQuery("from debts WHERE (username='" + username + "' AND type='debt')", Debt.class);
+        List<Debt> debts = (List<Debt>) theQuery.getResultList();   
+        return debts;
+    }
+
+    @Override
+    public List<Debt> getOnlyClaims() {
+        Session currentSession = entityManager.unwrap(Session.class);
+        String username = securityService.getUsernameFromSecurityContext();        
+        Query<Debt> theQuery = currentSession.createQuery("from debts WHERE (username='" + username + "' AND type='claim')", Debt.class);
+        List<Debt> debts = (List<Debt>) theQuery.getResultList();   
+        return debts;
+    }
+    
+    @Override
     public Debt getDebt(String name) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
-        
+        String username = securityService.getUsernameFromSecurityContext();        
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE username='" + username + "' AND debt_name='" + name + "'", Debt.class);
-        Debt debt = (Debt) theQuery.getSingleResult();
-        
+        Debt debt = (Debt) theQuery.getSingleResult();        
         return debt;
     }
 
     @Override
     public int getDebtId(String name) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = securityService.getUsernameFromSecurityContext();
         
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE username='" + username + "' AND debt_name='" + name + "'", Debt.class);
         Debt debt = (Debt) theQuery.getSingleResult();
@@ -66,7 +81,7 @@ public class DebtDAOImpl implements DebtDAO {
     @Override
     public void saveDebt(Debt theDebt) {
         Session currentSession = entityManager.unwrap(Session.class);  
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = securityService.getUsernameFromSecurityContext();
         theDebt.setUsername(username);        
         currentSession.save(theDebt);        
     }
@@ -74,7 +89,7 @@ public class DebtDAOImpl implements DebtDAO {
     @Override
     public void deleteDebt(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();     
+        String username = securityService.getUsernameFromSecurityContext();     
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE (debt_id='" + id + "' and username='" + username + "')", Debt.class);
         Debt debt = (Debt) theQuery.getSingleResult();
         
@@ -84,7 +99,7 @@ public class DebtDAOImpl implements DebtDAO {
     @Override
     public boolean checkIfDebtExists(String debtName) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();        
+        String username = securityService.getUsernameFromSecurityContext();        
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE username='" + username + "' AND debt_name='" + debtName + "'", Debt.class);        
         List<Debt> debts = (List<Debt>) theQuery.getResultList();
         
@@ -99,5 +114,4 @@ public class DebtDAOImpl implements DebtDAO {
         Session currentSession = entityManager.unwrap(Session.class);        
         currentSession.saveOrUpdate(theDebt);
     }
-
 }

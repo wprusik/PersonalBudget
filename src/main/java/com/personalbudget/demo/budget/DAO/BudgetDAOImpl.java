@@ -7,13 +7,12 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.personalbudget.demo.security.SecurityManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 @Repository
 public class BudgetDAOImpl implements BudgetDAO {
     
     private EntityManager entityManager;    
-    private SecurityManager securityManager;
 
     @Autowired
     public BudgetDAOImpl(EntityManager entityManager) {
@@ -23,7 +22,7 @@ public class BudgetDAOImpl implements BudgetDAO {
     @Override
     public List<Budget> getBudgets() {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         
         Query<Budget> query = currentSession.createQuery("from budgets where username='" + username + "'", Budget.class);
         
@@ -35,7 +34,7 @@ public class BudgetDAOImpl implements BudgetDAO {
     @Override
     public Budget getBudgetById(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Query<Budget> query = currentSession.createQuery("from budgets where (id='" + id + "' and username='" + username + "')", Budget.class);
         Budget budget = query.getSingleResult();
         
@@ -45,7 +44,7 @@ public class BudgetDAOImpl implements BudgetDAO {
     @Override
     public void addBudget(Budget budget) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();        
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         budget.setUsername(username);
         currentSession.save(budget);        
     }
@@ -53,7 +52,7 @@ public class BudgetDAOImpl implements BudgetDAO {
     @Override
     public void removeBudget(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         Query<Budget> query = currentSession.createQuery("from budgets where (id='" + id + "' and username='" + username + "')", Budget.class);
         Budget budget = query.getSingleResult();
         currentSession.delete(budget);
@@ -62,7 +61,7 @@ public class BudgetDAOImpl implements BudgetDAO {
     @Override
     public void updateBudget(Budget budget) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         int id = budget.getBudgetId();
         Query<Budget> query = currentSession.createQuery("from budgets where (id='" + id + "' and username='" + username + "')", Budget.class);
         Budget oriBudget = query.getSingleResult();

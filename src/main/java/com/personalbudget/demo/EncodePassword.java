@@ -14,7 +14,6 @@ public class EncodePassword {
         password = "admin";
         hashedPassword = passwordEncoder.encode(password);
         
-        System.out.println(hashedPassword);
-        
+        System.out.println(hashedPassword);        
     }
 }

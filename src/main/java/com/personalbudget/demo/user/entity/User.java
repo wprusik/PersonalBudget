@@ -1,4 +1,4 @@
-package com.personalbudget.demo.user;
+package com.personalbudget.demo.user.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

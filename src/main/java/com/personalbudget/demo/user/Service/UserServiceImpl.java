@@ -1,7 +1,7 @@
 package com.personalbudget.demo.user.service;
 
-import com.personalbudget.demo.user.Authority;
-import com.personalbudget.demo.user.User;
+import com.personalbudget.demo.user.entity.Authority;
+import com.personalbudget.demo.user.entity.User;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;

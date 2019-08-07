@@ -34,5 +34,10 @@ public class Expenditure {
     
     public Expenditure() {
         
-    }  
+    }
+    
+    public Expenditure(int budgetId, String edit) {
+        this.budgetId = budgetId;
+        this.edit = edit;
+    }
 }

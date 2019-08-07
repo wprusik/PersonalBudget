@@ -7,6 +7,10 @@ public interface DebtService {
 
     public List<Debt> getDebts();
     
+    public List<Debt> getOnlyDebts();
+    
+    public List<Debt> getOnlyClaims();
+    
     public Debt getDebt(String name);
     
     public int getDebtId(String name);

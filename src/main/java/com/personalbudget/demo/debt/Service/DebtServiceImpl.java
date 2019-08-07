@@ -20,6 +20,18 @@ public class DebtServiceImpl implements DebtService {
     public List<Debt> getDebts() {
         return debtDAO.getDebts();
     }
+    
+    @Override
+    @Transactional
+    public List<Debt> getOnlyDebts() {
+        return debtDAO.getOnlyDebts();
+    }
+
+    @Override
+    @Transactional
+    public List<Debt> getOnlyClaims() {
+        return debtDAO.getOnlyClaims();
+    }
 
     @Override
     @Transactional
@@ -62,5 +74,4 @@ public class DebtServiceImpl implements DebtService {
     public void updateDebt(Debt theDebt) {
         debtDAO.updateDebt(theDebt);
     }
-
 }

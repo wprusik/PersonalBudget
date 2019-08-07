@@ -8,6 +8,10 @@ public interface DebtDAO {
 
     public List<Debt> getDebts();
     
+    public List<Debt> getOnlyDebts();
+    
+    public List<Debt> getOnlyClaims();
+    
     public Debt getDebt(String name);
     
     public int getDebtId(String name);

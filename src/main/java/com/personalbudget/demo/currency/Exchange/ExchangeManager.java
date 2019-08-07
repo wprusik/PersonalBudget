@@ -9,24 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Controller
 public class ExchangeManager {
-
     
-    public ExchangeManager() {
-        
-    }
-    
-    public Exchange getExchanges() {
-        
-        
+    public static Exchange getExchanges() {        
         try {
             ObjectMapper mapper = new ObjectMapper();
-
             URL url = new URL("https://api.exchangeratesapi.io/latest");
-
-            Exchange exchange = mapper.readValue(url, Exchange.class);
-                        
-            return exchange;
-            
+            Exchange exchange = mapper.readValue(url, Exchange.class);                        
+            return exchange;            
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -36,8 +25,7 @@ public class ExchangeManager {
         }        
     }
     
-    public float convertCurrency(String currencyTo, String currencyFrom, float amountFrom) {
-        
+    public float convertCurrency(String currencyTo, String currencyFrom, float amountFrom) {        
         try {
             ObjectMapper mapper = new ObjectMapper();
 

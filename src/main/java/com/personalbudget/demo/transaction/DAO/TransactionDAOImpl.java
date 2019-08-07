@@ -9,23 +9,24 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import com.personalbudget.demo.security.SecurityManager;
+import com.personalbudget.demo.security.SecurityService;
 
 @Repository
 public class TransactionDAOImpl implements TransactionDAO {
 
     private EntityManager entityManager;
-    private SecurityManager securityManager;
+    private SecurityService securityService;
     
     @Autowired
-    public TransactionDAOImpl(EntityManager entityManager) {
+    public TransactionDAOImpl(EntityManager entityManager, SecurityService securityService) {
         this.entityManager = entityManager;
+        this.securityService = securityService;
     }
     
     @Override
     public List<Transaction> getTransactions() {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityManager.getUsernameFromSecurityContext();       
+        String username = securityService.getUsernameFromSecurityContext();       
         Timestamp time = Timestamp.valueOf(LocalDateTime.now());        
         Query<Transaction> query = currentSession.createQuery("from transactions where (datetime<='" + time + "' and username='" + username + "') order by date(datetime) DESC", Transaction.class);        
         List<Transaction> tempList = (List<Transaction>) query.getResultList();        
@@ -35,7 +36,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public List<Transaction> getPlannedTransactions() {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityManager.getUsernameFromSecurityContext();       
+        String username = securityService.getUsernameFromSecurityContext();       
         Timestamp time = Timestamp.valueOf(LocalDateTime.now());        
         Query<Transaction> query = currentSession.createQuery("from transactions where (datetime>'" + time + "' and username='" + username + "') order by date(datetime) ASC", Transaction.class);        
         List<Transaction> tempList = (List<Transaction>) query.getResultList();        
@@ -45,7 +46,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public void saveTransaction(Transaction transaction) {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityManager.getUsernameFromSecurityContext();        
+        String username = securityService.getUsernameFromSecurityContext();        
         transaction.setUsername(username);        
         currentSession.save(transaction);
     }
@@ -53,7 +54,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public void deleteTransaction(int transactionId) {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityManager.getUsernameFromSecurityContext();        
+        String username = securityService.getUsernameFromSecurityContext();        
         Query<Transaction> query = currentSession.createQuery("from transactions where (username='" + username + "' and transaction_id='" + transactionId + "')", Transaction.class);        
         Transaction transaction = query.getSingleResult();        
         currentSession.delete(transaction);
@@ -62,7 +63,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public Transaction getTransactionById(int id) {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityManager.getUsernameFromSecurityContext();
+        String username = securityService.getUsernameFromSecurityContext();
         Query<Transaction> query = currentSession.createQuery("from transactions where (transaction_id='" + id + "' and username='" + username + "')", Transaction.class);        
         Transaction transaction = (Transaction) query.getSingleResult();        
         return transaction; 
