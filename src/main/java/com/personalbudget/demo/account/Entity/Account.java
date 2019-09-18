@@ -32,5 +32,5 @@ public class Account {
     private String accountName;    
         
     public Account() {        
-    }     
+    }
 }

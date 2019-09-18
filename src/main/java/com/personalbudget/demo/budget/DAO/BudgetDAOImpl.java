@@ -3,6 +3,7 @@ package com.personalbudget.demo.budget.dao;
 import com.personalbudget.demo.budget.entity.Budget;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +23,9 @@ public class BudgetDAOImpl implements BudgetDAO {
     @Override
     public List<Budget> getBudgets() {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        
-        Query<Budget> query = currentSession.createQuery("from budgets where username='" + username + "'", Budget.class);
-        
-        List<Budget> budgets = (List<Budget>) query.getResultList();
-        
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();        
+        Query<Budget> query = currentSession.createQuery("from budgets where username='" + username + "'", Budget.class);        
+        List<Budget> budgets = (List<Budget>) query.getResultList();        
         return budgets;
     }
 
@@ -35,10 +33,14 @@ public class BudgetDAOImpl implements BudgetDAO {
     public Budget getBudgetById(int id) {
         Session currentSession = entityManager.unwrap(Session.class);
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Query<Budget> query = currentSession.createQuery("from budgets where (id='" + id + "' and username='" + username + "')", Budget.class);
-        Budget budget = query.getSingleResult();
-        
-        return budget;
+        Query<Budget> query = currentSession.createQuery("from budgets where (id='" + id + "' and username='" + username + "')", Budget.class);        
+        try {
+            Budget budget = query.getSingleResult();
+            return budget;
+        }
+        catch (NoResultException ex) {
+            return null;
+        }
     }
 
     @Override

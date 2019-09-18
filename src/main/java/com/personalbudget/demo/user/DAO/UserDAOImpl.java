@@ -49,8 +49,7 @@ public class UserDAOImpl implements UserDAO {
     public void saveUser(User theUser, ArrayList<Authority> authorities) {
         Session currentSession = entityManager.unwrap(Session.class);        
         theUser.setPassword(new BCryptPasswordEncoder().encode(theUser.getPassword()));
-        theUser.setEnabled(1);                      
-        System.out.println("PASSWORD: " + theUser.getPassword() + "\n\n\n");        
+        theUser.setEnabled(1);                              
         currentSession.save(theUser);        
         for (Authority item : authorities)
             currentSession.save(item);        

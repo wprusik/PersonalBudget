@@ -18,7 +18,8 @@ class AccountValidator {
     }
     
     Model validateFieldsCompletion(Model model, Account theAccount) {
-        if (theAccount.getAccountName().isBlank() || theAccount.getAccountNumber().isBlank() || theAccount.getBank().isBlank() || theAccount.getCurrency().isBlank()) {
+        if (theAccount.getAccountName() == null || theAccount.getAccountNumber() == null || theAccount.getBank() == null || theAccount.getCurrency() == null
+                || theAccount.getAccountName().isBlank() || theAccount.getAccountNumber().isBlank() || theAccount.getBank().isBlank() || theAccount.getCurrency().isBlank()) {
             model.addAttribute("error", "All fields must be completed.");
             return model;
         }

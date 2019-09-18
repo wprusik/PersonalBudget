@@ -33,7 +33,7 @@ public class AccountManager {
     
     
     public void deleteAccount(String accountNumber) {
-        List<Transaction> transactions = transactionService.getTransactions();
+        List<Transaction> transactions = transactionService.getAllTransactions();
         for (Transaction item : transactions){
             if (item.getAccountNumberFrom() != null)
                 if (item.getAccountNumberFrom().equals(accountNumber))

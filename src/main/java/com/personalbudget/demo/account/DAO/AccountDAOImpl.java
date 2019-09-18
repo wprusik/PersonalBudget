@@ -9,6 +9,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.personalbudget.demo.security.SecurityService;
+import javax.persistence.NoResultException;
 
 @Repository
 public class AccountDAOImpl implements AccountDAO {
@@ -24,8 +25,8 @@ public class AccountDAOImpl implements AccountDAO {
     
     @Override
     public List<Account> getAccounts() {
-        Session currentSession = entityManager.unwrap(Session.class);      
-        String username = securityService.getUsernameFromSecurityContext();        
+        Session currentSession = entityManager.unwrap(Session.class);
+        String username = securityService.getUsernameFromSecurityContext();
         Query<Account> theQuery = currentSession.createQuery("from accounts WHERE username='" + username + "'", Account.class);
         List<Account> accounts = (List<Account>) theQuery.getResultList();                
         return accounts;
@@ -38,8 +39,13 @@ public class AccountDAOImpl implements AccountDAO {
         
         String myQuery = "FROM accounts WHERE (username='" + username + "' AND account_number='" + theAccountNumber + "')";
         Query<Account> theQuery = currentSession.createQuery(myQuery, Account.class);
-        Account theAccount = (Account) theQuery.getSingleResult(); 
-       
+        Account theAccount;
+        try {
+            theAccount = (Account) theQuery.getSingleResult();
+        }
+        catch (NoResultException ex) {
+            theAccount = null;
+        }       
         return theAccount;
     }
 

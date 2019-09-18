@@ -9,6 +9,8 @@ public interface TransactionDAO {
     
     public List<Transaction> getPlannedTransactions();
     
+    public List<Transaction> getAllTransactions();
+    
     public void saveTransaction(Transaction transaction);
     
     public void updateTransaction(Transaction transaction);

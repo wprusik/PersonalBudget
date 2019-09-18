@@ -4,6 +4,7 @@ import com.personalbudget.demo.debt.entity.Debt;
 import com.personalbudget.demo.security.SecurityService;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,27 +55,36 @@ public class DebtDAOImpl implements DebtDAO {
         Session currentSession = entityManager.unwrap(Session.class);
         String username = securityService.getUsernameFromSecurityContext();        
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE username='" + username + "' AND debt_name='" + name + "'", Debt.class);
-        Debt debt = (Debt) theQuery.getSingleResult();        
+        Debt debt;
+        try {
+            debt = (Debt) theQuery.getSingleResult();
+        }   
+        catch (NoResultException ex) {
+            debt = null;
+        }
         return debt;
     }
 
     @Override
     public int getDebtId(String name) {
         Session currentSession = entityManager.unwrap(Session.class);
-        String username = securityService.getUsernameFromSecurityContext();
-        
+        String username = securityService.getUsernameFromSecurityContext();        
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE username='" + username + "' AND debt_name='" + name + "'", Debt.class);
         Debt debt = (Debt) theQuery.getSingleResult();
-        int id = debt.getDebtId();
-        
-        return id;
+        return debt.getDebtId();
     }
 
     @Override
     public Debt getDebtById(int id) {
         Session currentSession = entityManager.unwrap(Session.class);                
         Query<Debt> theQuery = currentSession.createQuery("from debts WHERE debt_id='" + id + "'", Debt.class);
-        Debt debt = (Debt) theQuery.getSingleResult();        
+        Debt debt;
+        try { 
+            debt = (Debt) theQuery.getSingleResult();
+        }        
+        catch (NoResultException ex) {
+            debt = null;
+        }
         return debt;
     }
 

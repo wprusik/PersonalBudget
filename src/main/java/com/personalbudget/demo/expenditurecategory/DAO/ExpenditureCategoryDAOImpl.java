@@ -8,6 +8,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.personalbudget.demo.security.SecurityService;
+import javax.persistence.NoResultException;
 
 @Repository
 public class ExpenditureCategoryDAOImpl implements ExpenditureCategoryDAO {
@@ -48,15 +49,15 @@ public class ExpenditureCategoryDAOImpl implements ExpenditureCategoryDAO {
     @Override
     public boolean isUnique(String expenditureType) {
         Session currentSession = entityManager.unwrap(Session.class);        
-        String username = securityService.getUsernameFromSecurityContext();      
-        Query<ExpenditureCategory> query = currentSession.createQuery("from expenditure_categories where username='" + username + "'", ExpenditureCategory.class);        
-        List<ExpenditureCategory> tempList = (List<ExpenditureCategory>) query.getResultList();
+        String username = securityService.getUsernameFromSecurityContext();
+        Query<ExpenditureCategory> query = currentSession.createQuery("from expenditure_categories where (username='" + username + "' AND expenditure_type='" + expenditureType + "')", ExpenditureCategory.class);
         
-        for (ExpenditureCategory item : tempList)
-            if (item.getExpenditureType().equals(expenditureType))
-                return false;
-        
-        return true;        
+        try {
+            query.getSingleResult();
+        }
+        catch (NoResultException ex) {
+            return true;
+        }
+        return false;
     }
-
 }

@@ -6,7 +6,6 @@ import com.personalbudget.demo.expenditurecategory.service.ExpenditureCategorySe
 import com.personalbudget.demo.security.SecurityService;
 import com.personalbudget.demo.transaction.entity.Transaction;
 import com.personalbudget.demo.transaction.service.TransactionService;
-import java.util.LinkedList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

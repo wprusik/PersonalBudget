@@ -10,6 +10,8 @@ public interface TransactionService {
     
     public List<Transaction> getPlannedTransactions();
     
+    public List<Transaction> getAllTransactions();
+    
     public void saveTransaction(Transaction transaction);
     
     public void deleteTransaction(int transactionId);

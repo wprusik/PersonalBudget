@@ -10,6 +10,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.personalbudget.demo.security.SecurityService;
+import javax.persistence.NoResultException;
 
 @Repository
 public class TransactionDAOImpl implements TransactionDAO {
@@ -42,6 +43,15 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<Transaction> tempList = (List<Transaction>) query.getResultList();        
         return tempList;        
     }
+    
+    @Override
+    public List<Transaction> getAllTransactions() {
+        Session currentSession = entityManager.unwrap(Session.class);        
+        String username = securityService.getUsernameFromSecurityContext();       
+        Query<Transaction> query = currentSession.createQuery("from transactions where username='" + username + "' order by date(datetime) DESC", Transaction.class);        
+        List<Transaction> tempList = (List<Transaction>) query.getResultList();
+        return tempList;
+    }
 
     @Override
     public void saveTransaction(Transaction transaction) {
@@ -65,7 +75,14 @@ public class TransactionDAOImpl implements TransactionDAO {
         Session currentSession = entityManager.unwrap(Session.class);        
         String username = securityService.getUsernameFromSecurityContext();
         Query<Transaction> query = currentSession.createQuery("from transactions where (transaction_id='" + id + "' and username='" + username + "')", Transaction.class);        
-        Transaction transaction = (Transaction) query.getSingleResult();        
+        Transaction transaction;
+        try {
+            transaction = (Transaction) query.getSingleResult();
+        }
+        catch (NoResultException ex) {
+            transaction = null;
+        }
+        
         return transaction; 
     }
     
@@ -75,4 +92,5 @@ public class TransactionDAOImpl implements TransactionDAO {
         Session currentSession = entityManager.unwrap(Session.class); 
         currentSession.saveOrUpdate(transaction);
     }
+
 }

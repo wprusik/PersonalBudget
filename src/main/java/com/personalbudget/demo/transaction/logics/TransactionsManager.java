@@ -133,7 +133,7 @@ public class TransactionsManager {
         transaction = correctExpenditureTypeIfWrong(transaction);
         
         if (validator.doesRequireDescription(transaction)) {
-            redirectAttributes = validator.validateDescription(username, redirectAttributes);
+            redirectAttributes = validator.validateDescription(transaction.getDescription(), redirectAttributes);
             if (haveError(redirectAttributes)) {
                 return redirectAttributes;
             }
@@ -157,7 +157,7 @@ public class TransactionsManager {
     }
     
     public Map searchTransactions(TransactionSearch searchTemplate, RedirectAttributes redirectAttributes) {
-        Map result = new HashMap();        
+        Map result = new HashMap();
         List<Transaction> transactions = getAllTransactions(searchTemplate);     
                 
         if (transactions == null) {

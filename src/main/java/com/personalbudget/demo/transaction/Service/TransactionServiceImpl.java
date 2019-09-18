@@ -29,7 +29,13 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> getPlannedTransactions() {
         return transactionDAO.getPlannedTransactions();
     }
-
+    
+    @Override
+    @Transactional
+    public List<Transaction> getAllTransactions() {
+        return transactionDAO.getAllTransactions();
+    }
+    
     @Override
     @Transactional
     public void saveTransaction(Transaction transaction) {

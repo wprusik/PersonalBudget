@@ -3,6 +3,7 @@ package com.personalbudget.demo.budget.dao;
 import com.personalbudget.demo.budget.entity.Expenditure;
 import java.util.List;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,13 @@ public class ExpenditureDAOImpl implements ExpenditureDAO {
     public Expenditure getExpenditureById(int id) {
         Session curreSession = entityManager.unwrap(Session.class);
         Query<Expenditure> query = curreSession.createQuery("from expenditures where id='" + id + "'", Expenditure.class);
-        Expenditure exp = query.getSingleResult();
+        Expenditure exp;
+        try {
+            exp = query.getSingleResult();
+        }
+        catch (NoResultException ex) {
+            exp = null;
+        }
         return exp;
     }
 
