@@ -7,6 +7,8 @@ PersonalBudget is a tool for comprehensive management of your money. It allows y
 - Thymeleaf, Bootstrap
 - JavaScript, jQuery
 * HighCharts library - *used under the Creative Commons Attribution-NonCommercial 3.0 license*
+- JUnit 5
+- Databases: MariaDB, H2 *(for tests)*
 
 ### Startup instructions:
 1.	Import the project into your IDE (it&#39;s a Spring Boot project)
