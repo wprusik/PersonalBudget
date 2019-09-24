@@ -22,8 +22,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     DataSource dataSource;
     
     
-    
-    
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception 
     {
@@ -61,10 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
     
     @Autowired
-    public PasswordEncoder passwordEncoder()
-    {
+    public PasswordEncoder passwordEncoder() {
         return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
-    
-        
 }
