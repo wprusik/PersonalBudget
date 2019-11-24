@@ -15,6 +15,10 @@ body {
     overflow: hidden;
 }
 
+a:hover {
+    text-decoration: none;
+}
+
 .vcenter {
     display: inline-block;
     vertical-align: middle;
@@ -78,6 +82,14 @@ body {
     float: right;
 }
 
+.hidden {
+    display: none;    
+}
+
+.hide-with-transition {
+    transition: opacity 1s ease-out;
+    opacity: 0;
+}
 
 
 /* ----- MAIN MENU ----- */
@@ -257,6 +269,13 @@ body {
     font-family: "Glyphicons Halflings";
 }
 
+.button-remove-sign:before {
+    content: "\e020";
+    font-family: "Glyphicons Halflings";
+    font-size: 15px;
+    padding-right: 10px;
+}
+
 .glyphicon-plus-sign:before { 
     content: "\002b";
     font-family: "Glyphicons Halflings";
@@ -350,6 +369,17 @@ color: graytext;
 background-color: darkred;
 }
 
+.login_btn_gray{
+color: black;
+background-color: #f0efed;
+width: 100px;
+}
+
+.login_btn_gray:hover{
+color: black;
+background-color: #bdbdbb;
+}
+
 .links{
 color: white;
 }
@@ -358,3 +388,24 @@ color: white;
 margin-left: 4px;
 }
 
+.login-additional-link {
+    color: white;
+    opacity: 0.85;
+    float:right; 
+    font-size:14px;
+    margin-top:-13px;
+    cursor: pointer;
+}
+
+.login-additional-link:hover {
+    opacity: 1;
+}
+
+.login-go-back-link {
+    cursor: pointer;    
+    opacity: 0.85;
+}
+
+.login-go-back-link:hover {
+    opacity: 1;
+}

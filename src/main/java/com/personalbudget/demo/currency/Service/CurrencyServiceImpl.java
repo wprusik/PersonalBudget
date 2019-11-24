@@ -26,5 +26,4 @@ public class CurrencyServiceImpl implements CurrencyService {
         List<Currency> currencies = (List<Currency>) theQuery.getResultList();        
         return currencies;        
     }
-
 }

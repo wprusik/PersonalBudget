@@ -14,12 +14,17 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
 import com.personalbudget.demo.user.entity.User;
 import com.personalbudget.demo.user.entity.Authority;
+import com.personalbudget.demo.user.entity.UserActivation;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.NoResultException;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.Matchers.isEmptyString;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import org.junit.jupiter.api.BeforeEach;
 
 @TestPropertySource(locations="/application-test.properties")
 @Sql({"/schema.sql", "/data.sql"})
@@ -33,6 +38,12 @@ public class UserDAOImplTest {
     @Autowired
     private EntityManager entityManager;
 
+    private Session session;
+    
+    @BeforeEach
+    public void prepareClass() {
+        session = entityManager.unwrap(Session.class);
+    }
     
     @Test
     public void getUsersShouldReturnNonEmptyList() {
@@ -42,7 +53,6 @@ public class UserDAOImplTest {
     @Test
     public void saveUserTest() {
         // given
-        Session session = entityManager.unwrap(Session.class);
         String username = "saveUserTest";
         Query<User> query = session.createQuery("from users where username='" + username + "'", User.class);
         User userCheck;
@@ -75,7 +85,6 @@ public class UserDAOImplTest {
         authority.setAuthority("ROLE_USER");
         authorities.add(authority);
         
-        Session session = entityManager.unwrap(Session.class);
         Query<User> queryUser = session.createQuery("from users where username='" + username + "'", User.class);
         Query<Authority> queryAuthority = session.createQuery("from authorities where username='" + username + "'", Authority.class);
         // when
@@ -100,5 +109,79 @@ public class UserDAOImplTest {
     @Test
     public void getUserShouldNotReturnNull() {
         assertNotNull(userDAO.getUser("test"));
+    }
+    
+    @Test
+    public void getActivationShouldReturnNull() {
+        assertNull(userDAO.getActivation("non-existing user"));
+    }
+    
+    @Test
+    public void getActivationShouldNotReturnNull() {
+        assertNotNull(userDAO.getActivation("testNonActivated"));
+    }
+    
+    @Test
+    public void updatePasswordTest() {
+        // given
+        Query<String> query = session.createNativeQuery("select password from users where username='test'");
+        String currentPassword = query.getSingleResult();        
+        // when
+        userDAO.updatePassword("test", "new password");
+        // then
+        assertThat(currentPassword.equals(query.getSingleResult()), is(false));
+    }
+    
+    @Test
+    public void updateEmailTest() {
+        // given
+        Query<String> query = session.createNativeQuery("select email from users where username='test'");
+        String email = "new email";        
+        // when
+        userDAO.updateEmail("test", email);
+        // then
+        assertThat(email.equals(query.getSingleResult()), is(true));
+    }
+    
+    @Test
+    public void getActivationCodeShouldReturnNonEmptyString() {
+        assertThat(userDAO.getActivationCode("testNonActivated"), not(isEmptyString()));
+    }
+    
+    @Test
+    public void updateActivationTest() {
+        // given
+        String username = "testNonActivated";
+        Query<UserActivation> queryActivation = session.createQuery("from users_activation where username='" + username + "'", UserActivation.class);
+        UserActivation activation = queryActivation.getSingleResult();
+        String oldActivationCode = activation.getActivationCode();
+        // when
+        userDAO.updateActivation(activation);
+        // then
+        assertThat(queryActivation.getSingleResult().getActivationCode(), not(equalTo(oldActivationCode)));
+    }
+    
+    @Test
+    public void enableUserTest() {
+        // before
+        String username = "testNonActivated";
+        Query<User> query = session.createQuery("from users where username='" + username + "'", User.class);
+        Query<UserActivation> queryActivation = session.createQuery("from users_activation where username='" + username + "'", UserActivation.class);
+        // when
+        userDAO.enableUser(username);
+        // then
+        assertThat("'enabled' field has not been changed to 1", query.getSingleResult().getEnabled(), equalTo(1));
+        assertThat("'users_activation' entry has not been removed", queryActivation.getResultList(), is(empty()));
+    }
+    
+    @Test
+    public void deleteUserTest() {
+        // given
+        String username = "test";
+        Query<User> query = session.createQuery("from users where username='" + username + "'", User.class);
+        // when
+        userDAO.deleteUser(username);
+        // then
+        assertThat(query.getResultList(), is(empty()));
     }
 }

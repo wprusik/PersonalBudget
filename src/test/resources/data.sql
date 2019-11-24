@@ -6,7 +6,11 @@ INSERT INTO `accounts` (`username`, `account_number`, `bank`, `balance`, `curren
 
 
 INSERT INTO `authorities` (`username`, `authority`) VALUES
-('test', 'ROLE_USER');
+('test', 'ROLE_USER'),
+('testNonActivated', 'ROLE_USER');
+
+INSERT INTO `users_activation` (`username`, `activation_code`, `expiration`) VALUES
+('testNonActivated', 'nuigfdbuigbidkfg', '3010-10-10 10:10:00');
 
 
 INSERT INTO `budgets` (`budget_id`, `username`, `budget_name`, `purpose`, `amount`, `currency`) VALUES
@@ -91,16 +95,16 @@ INSERT INTO `transactions` (`transaction_id`, `username`, `type`, `account_numbe
 (default, 'test', 'deposit', NULL, '97390856749836278538754387', 7, '2019-08-08 08:33:36', 'Archeologia', NULL, 'CZK', 0),
 (default, 'test', 'withdraw', '86578643065942356403625734', NULL, 4, '2019-08-08 08:33:44', 'asdasd', NULL, 'NZD', 0),
 (default, 'test', 'debt', '86578643065942356403625734', NULL, 10, '2019-08-08 08:33:55', 'asdasd', NULL, 'NZD', 16),
-(default, 'test', 'debt', '86578643065942356403625734', NULL, 7, '2019-08-08 08:34:06', 'Archeologia', NULL, 'NZD', 17),
+(default, 'test', 'debt', '86578643065942356403625734', NULL, 7, '2119-08-08 08:34:06', 'Archeologia', NULL, 'NZD', 17),
 (default, 'test', 'between', '97390856749836278538754387', '86578643065942356403625734', 15, '2019-08-30 20:00:00', 'asdasd', NULL, 'CZK', 0),
-(default, 'test', 'debt', '86578643065942356403625734', NULL, 15, '2019-09-25 20:00:00', 'Archeologia', NULL, 'NZD', 15),
+(default, 'test', 'debt', '86578643065942356403625734', NULL, 15, '2119-09-25 20:00:00', 'Archeologia', NULL, 'NZD', 15),
 (default, 'test', 'outgoing', '97390856749836278538754387', '215435436456', 10, '2019-09-19 20:00:00', 'asdasd', 'Rozrywka', 'CZK', 0),
-(default, 'test', 'debt', '38295687436574397695479674', NULL, 27, '2019-08-08 08:36:06', 'Archeologia', NULL, 'USD', 16),
+(default, 'test', 'debt', '38295687436574397695479674', NULL, 27, '2119-08-08 08:36:06', 'Archeologia', NULL, 'USD', 16),
 (28, 'test', 'unknown', '38295687436574397695479674', NULL, 27, '2019-08-08 08:36:06', 'Archeologia', NULL, 'USD', 16);
 
-INSERT INTO `users` (`username`, `password`, `enabled`) VALUES
-('test', '$2a$10$4yNtm9Az2ZNnbHb5bhgoK.0n0kJR61z/qZ7tkTOXp/StYKJ3AEqJG', 1);
-
+INSERT INTO `users` (`username`, `password`, `enabled`, `email`) VALUES
+('test', '$2a$10$4yNtm9Az2ZNnbHb5bhgoK.0n0kJR61z/qZ7tkTOXp/StYKJ3AEqJG', 1, 'test@test.pl'),
+('testNonActivated', '$2a$10$4yNtm9Az2ZNnbHb5bhgoK.0n0kJR61z/qZ7tkTOXp/StYKJ3AEqJG', 0, 'testNonActivated@test.pl');
 
 
 

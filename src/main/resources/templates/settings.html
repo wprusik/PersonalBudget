@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <title>About</title>
+        <title>Settings</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
                 
         <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/css/list.css">
         <link rel="shortcut icon" type="image/png" href="/img/logo.png">
     </head>
     <body>        
@@ -98,13 +99,19 @@
                             </a>
                             </li>  
                             
-                            <li class="nav-item nav-button-active">
-                            <a class="menu-link menu-link-expanded" href="#">                                
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/about">                                
                                 <span class="collapsed-text-icon info-sign"></span>
                                 About
                             </a>
                             </li>
                             
+                            <li class="nav-item nav-button-active">
+                            <a class="menu-link menu-link-expanded" href="#">                                
+                                <span class="collapsed-text-icon settings-sign"></span>
+                                Settings
+                            </a>
+                            </li>
                             
                             <li class="nav-item nav-button">
                             <form th:action="'/logout'" method="POST" id="logout">
@@ -123,68 +130,97 @@
 
                 <!-- RIGHT CONTAINER -->
                 <div class="container-fluid right-outer-container">
-                    
-                    <img src="/img/logo-text.png" width="50%" height="*" style="margin-left: 25%; margin-bottom: -4%;"/>
-                            <span style="display:block; margin: auto 0; text-align: center;"><h4 style="font-size: 1.2vw;">
-                                    online budgeting app - version 1.0
-                            </h4></span>
-                    
-                    
-                    <div style="display:block; margin: 0; padding: 65px 150px 20px 150px; text-align: center;">
-                        <div style="width:80%; margin: 0 auto; font-size: 19px;">
-                            <p>
-                                PersonalBudget is a tool for comprehensive management of your money. 
-                                It allows you to manage <nobr>bank accounts</nobr>, <nobr>add current</nobr>, <nobr>search and plan transactions</nobr>, 
-                            <nobr>create your own budgets</nobr>, <nobr>manage your debts</nobr>, generate charts <nobr>to track</nobr> 
-                            <nobr>your spending structure</nobr>, <nobr>convert currencies</nobr>, <nobr>and so on.</nobr>
-                            </p>
-
-
-                            <p style="margin-top: 30px;">
-                                <h5>Technologies used:</h5>
-
-                                <div style="margin-left: -60px;">
-                                <ul style="list-style-type: square; list-style-position: inside;">
-                                    <li>Spring Boot with Spring Security, Hibernate, REST</li>
-                                    <li>Thymeleaf, Bootstrap</li>
-                                    <li>Javascript, jQuery</li>
-                                    
-                                    <li style="color: red; margin-top:17px;"><span style="color: black;">
-                                            <a title="Go to its website" target="_blank" href="http://highcharts.com" style="text-decoration: none; color: black;">HighCharts library</a> 
-                                            - used under the Creative Commons Attribution-NonCommercial 3.0 license</span></li>
-                                </ul>
-                                </div>
-                            </p>
-                            
-                            <div style="margin-top: 45px;">
-                            <p style="font-size: 15px; width:70%; margin:0 auto; display:block;">
-                                *<i>
-                                    The site is not yet full responsive, so far it has been optimized for fullHD resolution (1920x1080).
-                                </i>
-                                
-                                <span style="margin-top: 14px; display: block;">
-                                    **<i>
-                                        Proper working of this application depends on the availability of <a href="http://www.exchangeratesapi.io" style="text-decoration: none; color: black;" title="Go to that webpage">www.exchangeratesapi.io</a> website, 
-                                        <nobr>from which</nobr> current exchange rates are retrieved. <nobr>If it isn't available</nobr>, the application will inform you 
-                                        <nobr>about it</nobr> <nobr>by displaying</nobr> the error page with the appropriate information.
-                                    </i>
-                                </span>
-                               
-                                <span style="margin-top: 14px; display: block;">
-                                    ***<i>
-                                        The registration process has been maximally simplified and the login page has no password recovery option 
-                                        <nobr>due to</nobr> the fact that the application was not created with a view to its subsequent implementation.
-                                    </i>
-                                </span>
-                            </p>
-                            
-                            <p style="margin-top: 80px; font-size: 17px;">
-                                author: <a href="https://github.com/wprusik?tab=repositories" style="text-decoration: none; color: black; font-style: italic; font-weight: bold;" target="_blank" title="Go to my GitHub profile">Wojciech Prusik</a>
-                            </p>
-                            </div>
-                        </div>                        
+                    <div style="padding-top: 1vh; padding-bottom: 5vh;">
+                        <div th:if="${message} != null" class="alert alert-success text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:text="${message}"></span>
+                        </div>   
+                        <div th:if="${error} != null" class="alert alert-danger text-center" style="width: auto; margin: 0 auto; display: table;">
+                            <span th:text="${error}"></span>
+                        </div>   
                     </div>
                     
+                    
+                    <div class="row">               
+                        <div class="col-md-3"></div>  
+                        <div class="container-content col-md-6" style="min-width: 310px; margin: 1em auto;">
+                            <center><h1 style="margin-bottom: 45px; margin-top: 30px; font-size: 60px;"><span class="settings-sign"></span></h1></center>
+                            <br />
+                            <form id="settings-form" th:action="'/settings/updateAccount'" th:object="${user}" method="POST">
+                                
+                                <table class="custom-table">
+                                    <tr style="display:none;">
+                                        <td></td>
+                                        <td></td>
+                                    </tr> 
+                                    <tr style="display:none;">
+                                        <td></td>
+                                        <td></td>
+                                    </tr> 
+                                    
+                                    <tr>
+                                        <td style="width: 40%;" title="One of two fields (account or expenditure type) must be selected">
+                                            Username
+                                        </td>
+                                        <td>
+                                            <input type="hidden" th:field="${user.username}" style="width: 100%; text-align: center;"/>
+                                            <input type="text" th:field="${user.username}" style="width: 100%; text-align: center;" disabled/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td title="One of two fields (account or expenditure type) must be selected">
+                                            E-mail address
+                                        </td>
+                                        
+                                        <td>
+                                            <input type="text" th:field="${user.email}" style="width: 100%; text-align: center;" required/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td title="Optional">
+                                            Current password
+                                        </td>
+                                        <td title="Optional">
+                                            <input type="password" th:field="${user.password}" style="width: 100%; text-align: center;" required maxlength="32" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}" id="passSet"/>
+                                        </td>
+                                    </tr>
+                                
+                                    <tr>
+                                        <td title="Optional">
+                                            New password**
+                                        </td>
+                                        <td title="Optional">
+                                            <input type="password" th:field="${user.newPassword}" style="width: 100%; text-align: center;" maxlength="32" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}"/>
+                                        </td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td title="Optional">
+                                            Repeat password**
+                                        </td>
+                                        <td>
+                                            <input type="password" id="datefield1" th:field="${user.repeatPassword}" style="width: 100%; text-align: center;" maxlength="32" pattern="([1-9][0-9][A-Za-z][Z-Az-a]*|0){1,60}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                                
+                                <center><a id="updateButton" class="submit-form btn btn-primary text-white glyphicon-refresh-sign" style="margin: 40px 0 0 0; width:100%; font-size:18px;" href="#">Update account settings</a></center>
+                                
+                            </form>
+                            
+                            <form th:action="'/settings/removeAccount'" method="POST" th:object="${user}" id='remove-account-form'>
+                                <input type="hidden" th:field="${user.password}" id="passDel"/>
+                                <input type="hidden" th:field="${user.username}" style="width: 100%; text-align: center;"/>
+                                <center><a id="removeButton" class="submit-form btn btn-danger text-white button-remove-sign" style="margin: 100px 0 0 0; width:25%; font-size:18px;" href="#">Delete account</a></center>
+                            </form>
+                            
+                            
+                        </div>                      
+                        <div class="col-md-3"></div>
+                    </div>                
+                                        
                     
                 </div>
             </div>
@@ -195,11 +231,21 @@
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/scripts/globalscripts.js"></script>
     <script>
         $(document).ready(function(){
             $("a.submit").click(function(){
                 document.getElementById("logout").submit();
             }); 
+        });
+        
+        $('#updateButton').click(function() {
+            $('#settings-form').submit();
+        });
+        
+        $('#removeButton').click(function() {
+            $('#passDel').attr('value', $('#passSet').val());
+            $('#remove-account-form').submit();
         });
     </script>
             

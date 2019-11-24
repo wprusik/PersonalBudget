@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.personalbudget.demo.user.entity.User;
+import com.personalbudget.demo.user.entity.UserActivation;
 import com.personalbudget.demo.user.logics.RegistrationManager;
 import com.personalbudget.demo.user.service.UserService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
@@ -43,4 +45,28 @@ public class LoginController {
         return "login";
     }
     
+    @GetMapping("/activate")
+    public String userActivation(@RequestParam("user") String username, @RequestParam("code") String code, Model model) {
+        UserActivation activation = userService.getActivation(username);
+        if (activation == null || !activation.getActivationCode().equals(code)) {            
+            model.addAttribute("error", "Wrong activation link.");
+        }
+        else {
+            userService.enableUser(username);
+            model.addAttribute("message", "Account activated successfully. Now you can sign in.");
+        }
+        return "login";
+    }
+    
+    @PostMapping("/resendActivationLink")
+    public String resendActivationLink(@ModelAttribute("username") String username, Model model) {
+        model = registrationManager.resendActivationEmail(username, model);
+        return "login";
+    }
+    
+    @PostMapping("/resetPassword")
+    public String resetPassword(@ModelAttribute("username") String username, @ModelAttribute("email") String email, Model model) {
+        model = registrationManager.resetPassword(username, email, model);       
+        return "login";
+    }
 }

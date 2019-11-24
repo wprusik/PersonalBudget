@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS `accounts`,  `authorities`, `budgets`, `currency`, `debts`, `expenditures`, `expenditure_categories`, `transactions`, `users`;
+DROP TABLE IF EXISTS `accounts`,  `authorities`, `budgets`, `currency`, `debts`, `expenditures`, `expenditure_categories`, `transactions`, `users`, `users_activation`;
 
 
 CREATE TABLE `accounts` (
@@ -73,5 +73,12 @@ CREATE TABLE `transactions` (
 CREATE TABLE `users` (
   `username` varchar(50) PRIMARY KEY,
   `password` varchar(60) NOT NULL,
-  `enabled` tinyint(1) NOT NULL
+  `enabled` tinyint(1) NOT NULL,
+  `email` varchar(60) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `users_activation` (
+  `username` varchar(50) PRIMARY KEY,
+  `activation_code` varchar(50) NOT NULL,
+  `expiration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -8,10 +8,13 @@ import com.personalbudget.demo.currency.service.CurrencyService;
 import com.personalbudget.demo.debt.entity.Debt;
 import com.personalbudget.demo.debt.service.DebtService;
 import com.personalbudget.demo.expenditurecategory.service.ExpenditureCategoryService;
+import com.personalbudget.demo.security.SecurityService;
 import com.personalbudget.demo.spendingstructure.dto.ChartTemplate;
 import com.personalbudget.demo.spendingstructure.logics.SpendingStructureManager;
 import com.personalbudget.demo.transaction.dto.TransactionSearch;
 import com.personalbudget.demo.transaction.service.TransactionService;
+import com.personalbudget.demo.user.entity.User;
+import com.personalbudget.demo.user.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,9 +31,11 @@ public class DemoController {
     private BudgetService budgetService;    
     private DebtService debtService;
     private SpendingStructureManager spendingStructureManager;
+    private SecurityService securityService;
+    private UserService userService;
 
     @Autowired
-    public DemoController(AccountService accountService, ExpenditureCategoryService expCatService, TransactionService transactionService, CurrencyService currencyService, BudgetService budgetService, DebtService debtService, SpendingStructureManager spendingStructureManager) {
+    public DemoController(AccountService accountService, ExpenditureCategoryService expCatService, TransactionService transactionService, CurrencyService currencyService, BudgetService budgetService, DebtService debtService, SpendingStructureManager spendingStructureManager, SecurityService securityService, UserService userService) {
         this.accountService = accountService;
         this.expCatService = expCatService;
         this.transactionService = transactionService;
@@ -38,6 +43,8 @@ public class DemoController {
         this.budgetService = budgetService;
         this.debtService = debtService;
         this.spendingStructureManager = spendingStructureManager;
+        this.securityService = securityService;
+        this.userService = userService;
     }
     
     @GetMapping("/accounts")
@@ -110,4 +117,13 @@ public class DemoController {
     public String acoutCard() {
         return "about";
     }    
+    
+    @GetMapping("/settings")
+    public String settingsCard(Model model) {
+        User userForm = new User();
+        userForm.setEmail(userService.getUser(securityService.getUsernameFromSecurityContext()).getEmail());
+        userForm.setUsername(securityService.getUsernameFromSecurityContext());
+        model.addAttribute("user", userForm);
+        return "settings";
+    }
 }

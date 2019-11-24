@@ -21,11 +21,17 @@ public class User {
     private String password;
     
     @Column(name="enabled")
-    private int enabled;
+    private Integer enabled;
+    
+    @Column(name="email")
+    private String email;
     
     @Transient
     private String repeatPassword;
     
+    @Transient
+    private String newPassword;
+        
     public User() {
         
     }    

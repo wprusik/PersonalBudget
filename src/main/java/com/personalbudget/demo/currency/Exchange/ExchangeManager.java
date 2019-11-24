@@ -61,7 +61,7 @@ public class ExchangeManager {
             throw new ResponseStatusException(
                 HttpStatus.BAD_GATEWAY, "Error of an external server"
               );
-        }        
+        }
     }
     
     
