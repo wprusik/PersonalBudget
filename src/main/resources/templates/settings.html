@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>About</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                
+        <link rel="stylesheet" type="text/css" href="/css/style.css">
+        <link rel="shortcut icon" type="image/png" href="/img/logo.png">
+    </head>
+    <body>        
+        <div class="container-fluid col-md-12" style="height: 100vh;">
+            <div class="row">
+                <!-- LEFT MENU -->
+                <div class="left-menu">
+                    
+                    <p><img class="menu-icon" src="/img/logo.png">PERSONAL BUDGET</p>
+                    
+                    <p>
+                        <img src="/img/icons/user.png" class="user-icon">
+                        <span th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                        
+                    </p>
+                    
+                    <ul id="menuUl" class="nav nav-tabs flex-column">
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/">
+                                <img class="nav-menu-icon" src="/img/icons/home.png">
+                                Home
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/accounts">
+                                <img class="nav-menu-icon" src="/img/icons/account.png">
+                                Accounts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button collapsed">
+                            <a class="menu-link accordion-toggle collapsed" href="#" data-toggle="collapse" data-target="#transactions">
+                                <img class="nav-menu-icon" src="/img/icons/transactions.png">
+                                Transactions
+                            </a>
+                        </li>
+                        
+                        <div id="transactions" class="collapse">
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/transaction-history">
+                                    <span class="collapsed-text-icon">TH</span>
+                                    Transaction history
+                                </a>
+                            </li>
+                            
+                            <li class="nav-item nav-button">
+                                <a class="menu-link menu-link-expanded" href="/planned-transactions">
+                                    <span class="collapsed-text-icon">PT</span>
+                                    Planned transactions
+                                </a>
+                            </li>                            
+                        </div>
+                        
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/budgets">
+                                <img class="nav-menu-icon" src="/img/icons/budget.png">
+                                Budgets
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/debts">
+                                <img class="nav-menu-icon" src="/img/icons/debt.png">
+                                Debts
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/expenditure-categories">
+                                <img class="nav-menu-icon" src="/img/icons/expenditurecategories.png">
+                                Expenditure categories
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link" href="/spending-structure">
+                                <img class="nav-menu-icon" src="/img/icons/spendingstructure.png">
+                                Spending structure
+                            </a>
+                        </li>
+                        <li class="nav-item nav-button">
+                            <a class="menu-link accordion-toggle" href="#" data-toggle="collapse" data-target="#others">
+                                <img class="nav-menu-icon" src="/img/icons/others.png">
+                                Others
+                            </a>
+                        </li>
+
+                        <div id="others" class="collapse show">
+                            <li class="nav-item nav-button">
+                            <a class="menu-link menu-link-expanded" href="/exchange-rates">                                
+                                <span class="collapsed-text-icon">ER</span>
+                                Exchange rates
+                            </a>
+                            </li>  
+                            
+                            <li class="nav-item nav-button-active">
+                            <a class="menu-link menu-link-expanded" href="#">                                
+                                <span class="collapsed-text-icon info-sign"></span>
+                                About
+                            </a>
+                            </li>
+                            
+                            
+                            <li class="nav-item nav-button">
+                            <form th:action="'/logout'" method="POST" id="logout">
+                            <a class="menu-link menu-link-expanded submit" href="#">
+                                <span class="collapsed-text-icon logout-sign"></span>                                
+                                Logout
+                            </a>
+                            </form>
+                            </li>
+                        </div>
+                        
+                        
+                    </ul>
+                    
+                </div>
+
+                <!-- RIGHT CONTAINER -->
+                <div class="container-fluid right-outer-container">
+                    
+                    <img src="/img/logo-text.png" width="50%" height="*" style="margin-left: 25%; margin-bottom: -4%;"/>
+                            <span style="display:block; margin: auto 0; text-align: center;"><h4 style="font-size: 1.2vw;">
+                                    online budgeting app - version 1.0
+                            </h4></span>
+                    
+                    
+                    <div style="display:block; margin: 0; padding: 65px 150px 20px 150px; text-align: center;">
+                        <div style="width:80%; margin: 0 auto; font-size: 19px;">
+                            <p>
+                                PersonalBudget is a tool for comprehensive management of your money. 
+                                It allows you to manage <nobr>bank accounts</nobr>, <nobr>add current</nobr>, <nobr>search and plan transactions</nobr>, 
+                            <nobr>create your own budgets</nobr>, <nobr>manage your debts</nobr>, generate charts <nobr>to track</nobr> 
+                            <nobr>your spending structure</nobr>, <nobr>convert currencies</nobr>, <nobr>and so on.</nobr>
+                            </p>
+
+
+                            <p style="margin-top: 30px;">
+                                <h5>Technologies used:</h5>
+
+                                <div style="margin-left: -60px;">
+                                <ul style="list-style-type: square; list-style-position: inside;">
+                                    <li>Spring Boot with Spring Security, Hibernate, REST</li>
+                                    <li>Thymeleaf, Bootstrap</li>
+                                    <li>Javascript, jQuery</li>
+                                    
+                                    <li style="color: red; margin-top:17px;"><span style="color: black;">
+                                            <a title="Go to its website" target="_blank" href="http://highcharts.com" style="text-decoration: none; color: black;">HighCharts library</a> 
+                                            - used under the Creative Commons Attribution-NonCommercial 3.0 license</span></li>
+                                </ul>
+                                </div>
+                            </p>
+                            
+                            <div style="margin-top: 45px;">
+                            <p style="font-size: 15px; width:70%; margin:0 auto; display:block;">
+                                *<i>
+                                    The site is not yet full responsive, so far it has been optimized for fullHD resolution (1920x1080).
+                                </i>
+                                
+                                <span style="margin-top: 14px; display: block;">
+                                    **<i>
+                                        Proper working of this application depends on the availability of <a href="http://www.exchangeratesapi.io" style="text-decoration: none; color: black;" title="Go to that webpage">www.exchangeratesapi.io</a> website, 
+                                        <nobr>from which</nobr> current exchange rates are retrieved. <nobr>If it isn't available</nobr>, the application will inform you 
+                                        <nobr>about it</nobr> <nobr>by displaying</nobr> the error page with the appropriate information.
+                                    </i>
+                                </span>
+                               
+                                <span style="margin-top: 14px; display: block;">
+                                    ***<i>
+                                        The registration process has been maximally simplified and the login page has no password recovery option 
+                                        <nobr>due to</nobr> the fact that the application was not created with a view to its subsequent implementation.
+                                    </i>
+                                </span>
+                            </p>
+                            
+                            <p style="margin-top: 80px; font-size: 17px;">
+                                author: <a href="https://github.com/wprusik?tab=repositories" style="text-decoration: none; color: black; font-style: italic; font-weight: bold;" target="_blank" title="Go to my GitHub profile">Wojciech Prusik</a>
+                            </p>
+                            </div>
+                        </div>                        
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        
+        
+        
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function(){
+            $("a.submit").click(function(){
+                document.getElementById("logout").submit();
+            }); 
+        });
+    </script>
+            
+    </body>
+</html>
