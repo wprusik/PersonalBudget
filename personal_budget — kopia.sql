@@ -1,24 +1,4 @@
-﻿-- phpMyAdmin SQL Dump
--- version 4.8.4
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Generation Time: Nov 26, 2019 at 08:08 PM
--- Server version: 10.1.37-MariaDB
--- PHP Version: 7.3.0
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
+﻿--
 -- Database: `personal_budget`
 --
 
@@ -477,27 +457,4 @@ ALTER TABLE `transactions`
 ALTER TABLE `users_activation`
   ADD CONSTRAINT `users_activation_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 
-DELIMITER $$
---
--- Events
---
-CREATE DEFINER=`root`@`localhost` EVENT `Delete expired users_activation, users and authorities` ON SCHEDULE EVERY 5 MINUTE STARTS '2019-11-11 20:00:36' ON COMPLETION NOT PRESERVE ENABLE DO BEGIN
 
-delete from `users_activation` where `users_activation`.`expiration` < NOW();
-
-DELETE FROM `authorities` 
- WHERE `authorities`.`username` IN (SELECT username FROM `users` WHERE `users`.`enabled`=0) AND NOT EXISTS(SELECT NULL FROM `users_activation` WHERE `users_activation`.`username` = username);
-
-DELETE FROM `users` 
- WHERE `users`.`enabled`=0 AND NOT EXISTS(SELECT NULL
-                    FROM `users_activation`
-                   WHERE `users_activation`.`username` = username);
-
-END$$
-
-DELIMITER ;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

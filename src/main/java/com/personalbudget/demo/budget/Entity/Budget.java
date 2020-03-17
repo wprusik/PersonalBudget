@@ -7,6 +7,8 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
+
 @Entity(name="budgets")
 @Table(name="budgets")
 @Getter @Setter
@@ -33,5 +35,4 @@ public class Budget {
     
     public Budget() {
     }
-
 }
